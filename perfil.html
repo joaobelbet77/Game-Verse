@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Meu Perfil</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="Contato.html">Contato</a></li>
+                <li><a href="perfil.html" class="active">Perfil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Caixa de Alerta de Feedback -->
+        <div id="alerta-perfil" class="alerta-box" style="display: none; max-width: 500px; margin: 0 auto 20px auto; padding: 12px; border-radius: 6px; text-align: center;"></div>
+
+        <div class="login-card" style="max-width: 500px;">
+            <h2 class="section-title" style="margin-bottom: 25px;">Minha Conta</h2>
+
+            <!-- Formulário de Alteração de Dados do Perfil -->
+            <form id="form-editar-perfil" style="margin-bottom: 25px;">
+                <div class="form-group">
+                    <label for="perfil-nome">Nome de Exibição</label>
+                    <input type="text" id="perfil-nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="perfil-email">E-mail (Não alterável)</label>
+                    <input type="email" id="perfil-email" disabled style="opacity: 0.7; cursor: not-allowed;">
+                </div>
+                <button type="submit" class="btn-comprar" style="margin-top: 5px;">Salvar Alterações do Perfil</button>
+            </form>
+
+            <!-- SEÇÃO EXCLUSIVA DE ALTERAÇÕES RÁPIDAS DO ADMIN -->
+            <div id="secao-controles-admin" class="admin-section" style="display: none; margin-top: 25px; border-color: #f39c12;">
+                <h3 style="color: #f39c12; border-bottom-color: #f39c12;">Controles Rápidos de Administrador</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+                    <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; cursor: pointer;">
+                        <span>Ativar Modo Manutenção na Loja</span>
+                        <input type="checkbox" id="check-manutencao" style="width: 20px; height: 20px;">
+                    </label>
+
+                    <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; cursor: pointer;">
+                        <span>Exibir Banner Global de Promoção</span>
+                        <input type="checkbox" id="check-banner-promo" style="width: 20px; height: 20px;">
+                    </label>
+
+                    <button id="btn-salvar-config-admin" class="btn-comprar" style="border-color: #f39c12; color: #f39c12; margin-top: 10px;">
+                        Salvar Configurações do Sistema
+                    </button>
+
+                    <a href="admin.html" class="btn-comprar" style="text-decoration: none; text-align: center; background-color: #f39c12; color: #030a16; font-weight: bold; margin-top: 5px;">
+                        Abrir Painel Admin Completo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Botões de Ação Comuns -->
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 25px;">
+                <button id="btn-logout" class="btn-comprar" style="border-color: #e74c3c; color: #e74c3c;">Sair da Conta</button>
+                <a href="index.html" class="btn-comprar" style="text-decoration: none; text-align: center;">Voltar à Loja</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+        const alertaPerfil = document.getElementById('alerta-perfil');
+
+        // Se não estiver logado, redireciona para a página de login
+        if (!usuarioLogado) {
+            window.location.href = 'Paginalogin.html';
+            return;
+        }
+
+        const inputNome = document.getElementById('perfil-nome');
+        const inputEmail = document.getElementById('perfil-email');
+        const secaoAdmin = document.getElementById('secao-controles-admin');
+
+        // Preenche os campos do perfil
+        inputNome.value = usuarioLogado.nome;
+        inputEmail.value = usuarioLogado.email;
+
+        function exibirAlerta(mensagem, tipo = 'sucesso') {
+            alertaPerfil.style.display = 'block';
+            alertaPerfil.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
+            alertaPerfil.style.color = '#fff';
+            alertaPerfil.textContent = mensagem;
+
+            setTimeout(() => {
+                alertaPerfil.style.display = 'none';
+            }, 3000);
+        }
+
+        // 1. ALTERAR NOME DO USUÁRIO LOGADO
+        document.getElementById('form-editar-perfil').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const novoNome = inputNome.value.trim();
+
+            if (!novoNome) return;
+
+            // Atualiza sessão atual
+            usuarioLogado.nome = novoNome;
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+
+            // Atualiza a lista geral de usuários cadastrados se não for admin
+            if (usuarioLogado.email !== 'admin@gamerverse.com') {
+                let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+                const idx = usuariosSalvos.findIndex(u => u.email === usuarioLogado.email);
+                if (idx !== -1) {
+                    usuariosSalvos[idx].nome = novoNome;
+                    localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
+                }
+            }
+
+            exibirAlerta('Nome alterado com sucesso!');
+        });
+
+        // 2. CONFIGURAÇÕES ADICIONAIS DE ADMIN
+        if (usuarioLogado.email === 'admin@gamerverse.com') {
+            secaoAdmin.style.display = 'block';
+
+            const checkManutencao = document.getElementById('check-manutencao');
+            const checkBannerPromo = document.getElementById('check-banner-promo');
+
+            // Carrega configurações prévias salvas no localStorage
+            const configSistema = JSON.parse(localStorage.getItem('configGamerVerse')) || { manutencao: false, bannerPromo: false };
+            checkManutencao.checked = configSistema.manutencao;
+            checkBannerPromo.checked = configSistema.bannerPromo;
+
+            // Salvar configurações do sistema
+            document.getElementById('btn-salvar-config-admin').addEventListener('click', () => {
+                const novasConfigs = {
+                    manutencao: checkManutencao.checked,
+                    bannerPromo: checkBannerPromo.checked
+                };
+
+                localStorage.setItem('configGamerVerse', JSON.stringify(novasConfigs));
+                exibirAlerta('Configurações do sistema atualizadas com sucesso!');
+            });
+        }
+
+        // Logout
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            localStorage.removeItem('usuarioLogado');
+            window.location.href = 'Paginalogin.html';
+        });
+    });
+</script>
+</body>
+</html>

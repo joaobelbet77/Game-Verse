@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Painel Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- ESTILOS DO MODAL CUSTOMIZADO --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-box {
+            background-color: #18181b;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(168, 85, 247, 0.2);
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .modal-box h4 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: #A855F7;
+        }
+
+        .modal-box p {
+            margin: 15px 0 25px;
+            color: #d4d4d8;
+            font-size: 0.95rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-modal-cancel {
+            background-color: #27272a;
+            color: #e4e4e7;
+            border: 1px solid #3f3f46;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-modal-cancel:hover {
+            background-color: #3f3f46;
+        }
+
+        .btn-modal-confirm {
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-modal-confirm:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span> Admin</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Loja</a></li>
+                <li><a href="perfil.html">Meu Perfil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2 class="section-title">Painel de Controle do Administrador</h2>
+
+        <!-- 1. GERENCIAR / CADASTRAR USUÁRIOS -->
+        <section class="admin-section">
+            <h3>Cadastrar Novo Usuário</h3>
+            <div id="alerta-usuario" class="alerta-box" style="display: none; margin-bottom: 15px; padding: 10px; border-radius: 5px; text-align: center; font-size: 0.9rem;"></div>
+            
+            <form id="form-cadastrar-usuario" style="margin-bottom: 30px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div class="form-group">
+                        <label for="user-nome-input">Nome Completo</label>
+                        <input type="text" id="user-nome-input" placeholder="Ex: João Silva" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email-input">E-mail</label>
+                        <input type="email" id="user-email-input" placeholder="usuario@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-senha-input">Senha</label>
+                        <input type="password" id="user-senha-input" placeholder="******" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-comprar" style="margin-top: 10px; width: fit-content; padding: 10px 25px;">Cadastrar Usuário</button>
+            </form>
+
+            <h3>Usuários Cadastrados no Sistema</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th style="width: 120px; text-align: center;">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-usuarios">
+                    <!-- Preenchido dinamicamente via JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 2. GERENCIAMENTO DE PRODUTOS -->
+        <section class="admin-section">
+            <h3>Cadastrar Novo Produto</h3>
+            <div id="alerta-admin" class="alerta-box" style="display: none; margin-bottom: 15px; padding: 10px; border-radius: 5px; text-align: center; font-size: 0.9rem;"></div>
+            
+            <form id="form-cadastrar-produto">
+                <div class="form-group">
+                    <label for="prod-nome">Nome do Jogo/Produto</label>
+                    <input type="text" id="prod-nome" placeholder="Ex: Cyberpunk 2077" required>
+                </div>
+                <div class="form-group">
+                    <label for="prod-preco">Preço (R$)</label>
+                    <input type="number" id="prod-preco" step="0.01" placeholder="199.90" required>
+                </div>
+                <div class="form-group">
+                    <label for="prod-imagem">URL da Imagem</label>
+                    <input type="url" id="prod-imagem" placeholder="https://..." required>
+                </div>
+                <button type="submit" class="btn-comprar" style="width: fit-content; padding: 10px 25px;">Adicionar Produto</button>
+            </form>
+
+            <h3 style="margin-top: 30px;">Produtos Cadastrados</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Imagem</th>
+                        <th style="width: 120px; text-align: center;">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-produtos">
+                    <!-- Preenchido dinamicamente via JS -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Estrutura do Modal Personalizado -->
+    <div id="custom-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h4>Confirmação</h4>
+            <p id="modal-msg">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="btn-modal-cancel" class="btn-modal-cancel">Cancelar</button>
+                <button id="btn-modal-confirm" class="btn-modal-confirm">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+        // Validação de acesso restrito ao Admin
+        if (!usuarioLogado || usuarioLogado.email !== 'admin@gamerverse.com') {
+            alert('Acesso negado. Esta página é restrita ao Administrador.');
+            window.location.href = 'Paginalogin.html';
+            return;
+        }
+
+        const tabelaUsuarios = document.getElementById('lista-usuarios');
+        const formUsuario = document.getElementById('form-cadastrar-usuario');
+        const alertaUsuario = document.getElementById('alerta-usuario');
+
+        // ELEMENTOS DO MODAL PERSONALIZADO
+        const modal = document.getElementById('custom-modal');
+        const modalMsg = document.getElementById('modal-msg');
+        const btnCancel = document.getElementById('btn-modal-cancel');
+        const btnConfirm = document.getElementById('btn-modal-confirm');
+
+        // Função utilitária para abrir o modal customizado
+        function mostrarConfirmacao(mensagem, acaoAoConfirmar) {
+            modalMsg.textContent = mensagem;
+            modal.style.display = 'flex';
+
+            const fecharModal = () => {
+                modal.style.display = 'none';
+                btnConfirm.removeEventListener('click', executarConfirmacao);
+                btnCancel.removeEventListener('click', fecharModal);
+            };
+
+            const executarConfirmacao = () => {
+                acaoAoConfirmar();
+                fecharModal();
+            };
+
+            btnConfirm.addEventListener('click', executarConfirmacao);
+            btnCancel.addEventListener('click', fecharModal);
+        }
+
+        // Função para mostrar alertas na tela
+        function exibirAlerta(elemento, mensagem, tipo = 'sucesso') {
+            elemento.style.display = 'block';
+            elemento.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
+            elemento.style.color = '#fff';
+            elemento.textContent = mensagem;
+
+            setTimeout(() => {
+                elemento.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- FUNÇÃO PARA RENDERIZAR A TABELA DE USUÁRIOS ---
+        function carregarUsuarios() {
+            const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+            tabelaUsuarios.innerHTML = '';
+
+            if (usuariosSalvos.length === 0) {
+                tabelaUsuarios.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Nenhum usuário cadastrado até o momento.</td></tr>';
+                return;
+            }
+
+            usuariosSalvos.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.nome}</td>
+                    <td>${user.email}</td>
+                    <td style="text-align: center;">
+                        <button class="btn-excluir-user" data-index="${index}" style="background-color: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            Excluir
+                        </button>
+                    </td>
+                `;
+                tabelaUsuarios.appendChild(tr);
+            });
+
+            // Adiciona evento de exclusão aos botões criados
+            document.querySelectorAll('.btn-excluir-user').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.currentTarget.getAttribute('data-index');
+                    excluirUsuario(idx);
+                });
+            });
+        }
+
+        // --- CADASTRAR NOVO USUÁRIO PELO ADMIN ---
+        formUsuario.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nome = document.getElementById('user-nome-input').value.trim();
+            const email = document.getElementById('user-email-input').value.trim();
+            const senha = document.getElementById('user-senha-input').value;
+
+            if (!nome || !email || !senha) {
+                exibirAlerta(alertaUsuario, 'Preencha todos os campos antes de cadastrar.', 'erro');
+                return;
+            }
+
+            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+
+            const jaExiste = usuariosSalvos.some(u => u.email === email);
+            if (jaExiste || email === 'admin@gamerverse.com') {
+                exibirAlerta(alertaUsuario, 'Este e-mail já está em uso por outro usuário.', 'erro');
+                return;
+            }
+
+            usuariosSalvos.push({ nome, email, senha });
+            localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
+
+            exibirAlerta(alertaUsuario, 'Usuário cadastrado com sucesso!');
+            formUsuario.reset();
+            carregarUsuarios();
+        });
+
+        // --- EXCLUIR USUÁRIO COM O MODAL NOVO ---
+        function excluirUsuario(index) {
+            let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+            
+            if (usuariosSalvos[index]) {
+                const nomeUsuario = usuariosSalvos[index].nome;
+                
+                mostrarConfirmacao(`Tem certeza que deseja remover o usuário "${nomeUsuario}"?`, () => {
+                    usuariosSalvos.splice(index, 1);
+                    localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
+                    exibirAlerta(alertaUsuario, 'Usuário removido com sucesso!', 'sucesso');
+                    carregarUsuarios();
+                });
+            }
+        }
+
+        // --- CADASTRAR PRODUTO ---
+        const formProduto = document.getElementById('form-cadastrar-produto');
+        const alertaAdmin = document.getElementById('alerta-admin');
+        const tabelaProdutos = document.getElementById('lista-produtos');
+
+        function carregarProdutos() {
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosGamerVerse')) || [];
+            tabelaProdutos.innerHTML = '';
+
+            if (produtosCadastrados.length === 0) {
+                tabelaProdutos.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Nenhum produto cadastrado até o momento.</td></tr>';
+                return;
+            }
+
+            produtosCadastrados.forEach((produto, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${produto.nome}</td>
+                    <td>R$ ${produto.preco.toFixed(2).replace('.', ',')}</td>
+                    <td><img src="${produto.imagem}" alt="${produto.nome}" style="max-width: 100px; height: auto; border-radius: 4px;"></td>
+                    <td style="text-align: center;">
+                        <button class="btn-excluir-produto" data-index="${index}" style="background-color: transparent; border: 1px solid #e74c3c; color: #e74c3c; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            Excluir
+                        </button>
+                    </td>
+                `;
+                tabelaProdutos.appendChild(tr);
+            });
+
+            document.querySelectorAll('.btn-excluir-produto').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.currentTarget.getAttribute('data-index');
+                    excluirProduto(idx);
+                });
+            });
+        }
+
+        formProduto.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const nomeProduto = document.getElementById('prod-nome').value.trim();
+            const precoProduto = parseFloat(document.getElementById('prod-preco').value);
+            const imagemProduto = document.getElementById('prod-imagem').value.trim();
+
+            if (!nomeProduto || !imagemProduto || isNaN(precoProduto) || precoProduto <= 0) {
+                exibirAlerta(alertaAdmin, 'Preencha todos os campos corretamente antes de cadastrar.', 'erro');
+                return;
+            }
+
+            const novoProduto = {
+                id: Date.now(),
+                nome: nomeProduto,
+                preco: precoProduto,
+                imagem: imagemProduto
+            };
+
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosGamerVerse')) || [];
+            produtosCadastrados.push(novoProduto);
+            localStorage.setItem('produtosGamerVerse', JSON.stringify(produtosCadastrados));
+
+            exibirAlerta(alertaAdmin, 'Produto cadastrado com sucesso!');
+            formProduto.reset();
+            carregarProdutos();
+        });
+
+        function excluirProduto(index) {
+            const produtosCadastrados = JSON.parse(localStorage.getItem('produtosGamerVerse')) || [];
+
+            if (produtosCadastrados[index]) {
+                mostrarConfirmacao(`Tem certeza que deseja remover o produto "${produtosCadastrados[index].nome}"?`, () => {
+                    produtosCadastrados.splice(index, 1);
+                    localStorage.setItem('produtosGamerVerse', JSON.stringify(produtosCadastrados));
+                    exibirAlerta(alertaAdmin, 'Produto removido com sucesso!', 'sucesso');
+                    carregarProdutos();
+                });
+            }
+        }
+
+        // Carrega os dados na inicialização da página
+        carregarUsuarios();
+        carregarProdutos();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Contato</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="contato.html" class="active">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon">
+            <a href="Carrinhodecompra.html">🛒</a>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main class="container-contato">
+        <div class="contato-wrapper">
+            
+            <div class="contato-info">
+                <h2>Fale Conosco</h2>
+                <p>Tem alguma dúvida sobre um pedido, chave de ativação ou quer apenas trocar uma ideia? Mande uma mensagem!</p>
+                
+                <div class="info-detalhes">
+                    <div class="info-item">
+                        <span class="icon">📍</span>
+                        <p>Av. Paulista, 1000 - São Paulo, SP</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">📧</span>
+                        <p>gamerversesuporte@gmail.com</p>
+                    </div>
+                    <div class="info-item">
+                        <span class="icon">⏰</span>
+                        <p>Segunda a Sexta: 09h às 20h</p>
+                    </div>
+                </div>
+
+                <div class="redes-sociais">
+                    <a href="https://discord.com/store" class="social-link" target="_blank">Discord</a>
+                    <a href="https://www.instagram.com/accounts/login/" class="social-link" target="_blank">Instagram</a>
+                    <a href="https://www.youtube.com/" class="social-link" target="_blank">YouTube</a>
+                </div>
+            </div>
+
+            <div class="contato-form-box">
+                <!-- ALTERADO: action apontando para o Formspree com envio via AJAX/JS -->
+                <form id="contato-form" action="https://formspree.io/f/xaqrzrvb" method="POST" class="contato-form">
+                    
+                    <div id="alerta-envio" style="display: none; padding: 12px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 0.95rem;"></div>
+
+                    <div class="form-group">
+                        <label for="nome">Nome Completo</label>
+                        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="_replyto" placeholder="seuemail@exemplo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assunto">Assunto</label>
+                        <select id="assunto" name="assunto">
+                            <option value="Suporte Técnico / Chave do Jogo">Suporte Técnico / Chave do Jogo</option>
+                            <option value="Financeiro / Reembolso">Financeiro / Reembolso</option>
+                            <option value="Parcerias / Influenciadores">Parcerias / Influenciadores</option>
+                            <option value="Outros Assuntos">Outros Assuntos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem</label>
+                        <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem aqui..." required></textarea>
+                    </div>
+
+                    <button type="submit" id="btn-enviar" class="btn-enviar">Enviar Mensagem</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Atualiza contador do carrinho
+            const cartCountHeader = document.getElementById('cart-count');
+            function atualizarContador() {
+                const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+                const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+                if (cartCountHeader) {
+                    cartCountHeader.textContent = totalQtd;
+                }
+            }
+            atualizarContador();
+
+            // Envio do formulário sem recarregar a página
+            const form = document.getElementById('contato-form');
+            const alerta = document.getElementById('alerta-envio');
+            const btnEnviar = document.getElementById('btn-enviar');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                btnEnviar.disabled = true;
+                btnEnviar.textContent = 'Enviando...';
+
+                const data = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method,
+                        body: data,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        alerta.style.display = 'block';
+                        alerta.style.backgroundColor = '#2ecc71';
+                        alerta.style.color = '#fff';
+                        alerta.textContent = 'Mensagem enviada com sucesso! Em breve entraremos em contato.';
+                        form.reset();
+                    } else {
+                        throw new Error('Erro no envio');
+                    }
+                } catch (error) {
+                    alerta.style.display = 'block';
+                    alerta.style.backgroundColor = '#e74c3c';
+                    alerta.style.color = '#fff';
+                    alerta.textContent = 'Ops! Houve um problema ao enviar. Verifique seu e-mail de destino no action.';
+                } finally {
+                    btnEnviar.disabled = false;
+                    btnEnviar.textContent = 'Enviar Mensagem';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

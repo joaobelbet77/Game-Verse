@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Recuperar Senha</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="Contato.html">Contato</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon">
+            <a href="Carrinhodecompra.html">🛒</a>
+            <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="login-card">
+            <h2 class="section-title" style="margin-bottom: 10px;">Recuperar Senha</h2>
+            <p style="color: #aaa; font-size: 0.9rem; text-align: center; margin-bottom: 25px;">
+                Digite o e-mail cadastrado na sua conta para enviarmos as instruções de redefinição.
+            </p>
+            
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+
+            <form id="recovery-form">
+                <div class="form-group">
+                    <label for="email">E-mail Cadastrado</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+
+                <button type="submit" class="btn-comprar btn-login" style="margin-top: 10px;">Enviar Instruções</button>
+            </form>
+
+            <div class="login-footer">
+                <p>Lembrou da senha? <a href="Paginalogin.html">Voltar para o Login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartCountHeader = document.getElementById('cart-count');
+            const recoveryForm = document.getElementById('recovery-form');
+            const alertaBox = document.getElementById('mensagem-alerta');
+
+            // Atualiza o contador de produtos no carrinho
+            function atualizarContador() {
+                const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+                const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+                if (cartCountHeader) cartCountHeader.textContent = totalQtd;
+            }
+
+            // Exibe avisos visuais de erro ou sucesso
+            function exibirMensagem(texto, tipo = 'erro') {
+                alertaBox.style.display = 'block';
+                alertaBox.style.padding = '10px';
+                alertaBox.style.marginBottom = '15px';
+                alertaBox.style.borderRadius = '6px';
+                alertaBox.style.textAlign = 'center';
+                alertaBox.style.fontSize = '0.9rem';
+
+                if (tipo === 'erro') {
+                    alertaBox.style.backgroundColor = '#e74c3c';
+                    alertaBox.style.color = '#fff';
+                } else {
+                    alertaBox.style.backgroundColor = '#2ecc71';
+                    alertaBox.style.color = '#fff';
+                }
+                alertaBox.textContent = texto;
+            }
+
+            // Manipula o envio do formulário
+            if (recoveryForm) {
+                recoveryForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const email = document.getElementById('email').value.trim();
+
+                    try {
+                        const resposta = await fetch('/api/esqueceu-senha', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email })
+                        });
+
+                        const resultado = await resposta.json();
+
+                        if (resposta.ok) {
+                            exibirMensagem('Se este e-mail estiver cadastrado, enviamos as instruções de redefinição!', 'sucesso');
+                            document.getElementById('email').value = '';
+                        } else {
+                            exibirMensagem(resultado.erro || 'Erro ao processar a solicitação.');
+                        }
+                    } catch (error) {
+                        // Exemplo simulado de sucesso caso a API no backend ainda não esteja ativa
+                        exibirMensagem('Instruções enviadas! Verifique sua caixa de entrada.', 'sucesso');
+                    }
+                });
+            }
+
+            atualizarContador();
+        });
+
+        // Manipula o envio do formulário
+if (recoveryForm) {
+    recoveryForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const btnSubmit = recoveryForm.querySelector('button[type="submit"]');
+
+        // Altera texto do botão durante o envio
+        btnSubmit.textContent = 'Enviando e-mail...';
+        btnSubmit.disabled = true;
+
+        try {
+            const resposta = await fetch('/api/esqueceu-senha', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            const resultado = await resposta.json();
+
+            if (resposta.ok) {
+                exibirMensagem(resultado.mensagem, 'sucesso');
+                document.getElementById('email').value = '';
+            } else {
+                exibirMensagem(resultado.erro || 'Erro ao enviar o e-mail.');
+            }
+        } catch (error) {
+            exibirMensagem('Não foi possível se conectar ao servidor.');
+        } finally {
+            btnSubmit.textContent = 'Enviar Instruções';
+            btnSubmit.disabled = false;
+        }
+    });
+}
+    </script>
+</body>
+</html>

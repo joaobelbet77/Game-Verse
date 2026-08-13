@@ -1,0 +1,217 @@
+ <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Meu Carrinho</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon">
+            🛒 <span class="cart-count" id="cart-count">0</span>
+        </div>
+    </header>
+
+    <main class="container-carrinho">
+        <h2 class="section-title">Seu Carrinho de Compras</h2>
+        
+        <div class="barra-frete-container">
+            <p>🔥 Parabéns! Você ganhou <strong>Frete Grátis</strong> e um <strong>Cupom de R$ 20</strong> para a próxima compra!</p>
+            <div class="barra-progresso"><div class="progresso-preenchido"></div></div>
+        </div>
+
+        <div class="carrinho-wrapper">
+            
+            <div class="carrinho-itens" id="carrinho-itens">
+                <!-- Os itens serão inseridos aqui dinamicamente via JS -->
+            </div>
+
+            <aside class="carrinho-resumo">
+                <h3>Resumo do Pedido</h3>
+                <hr class="divisor">
+                
+                <div class="resumo-linha">
+                    <span id="subtotal-qtd-label">Subtotal (0 itens)</span>
+                    <span id="resumo-subtotal">R$ 0,00</span>
+                </div>
+                <div class="resumo-linha">
+                    <span>Frete de Envio</span>
+                    <span class="frete-gratis">Grátis</span>
+                </div>
+                
+                <div class="cupom-container">
+                    <input type="text" placeholder="Digite seu cupom" class="input-cupom" id="input-cupom">
+                    <button class="btn-cupom" id="btn-aplicar-cupom">Aplicar</button>
+                </div>
+                <p class="cupom-valido" id="msg-cupom" style="display: none;"></p>
+                
+                <hr class="divisor">
+                
+                <div class="resumo-linha total">
+                    <span>Total</span>
+                    <div class="preco-final-box">
+                        <span class="total-antigo" id="total-antigo" style="display: none;">R$ 0,00</span>
+                        <span class="preco-total" id="preco-total">R$ 0,00</span>
+                    </div>
+                </div>
+                
+                <button class="btn-finalizar">Ir para o Pagamento</button>
+                <a href="index.html" class="btn-continuar">← Voltar para a Vitrine</a>
+            </aside>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT INTEGRADA AO LOCALSTORAGE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const containerItens = document.getElementById('carrinho-itens');
+            const cartCountHeader = document.getElementById('cart-count');
+            const resumoSubtotal = document.getElementById('resumo-subtotal');
+            const subtotalQtdLabel = document.getElementById('subtotal-qtd-label');
+            const precoTotal = document.getElementById('preco-total');
+            const totalAntigo = document.getElementById('total-antigo');
+            const inputCupom = document.getElementById('input-cupom');
+            const btnCupom = document.getElementById('btn-aplicar-cupom');
+            const msgCupom = document.getElementById('msg-cupom');
+
+            let cupomAtivo = false;
+            const DESCONTO_CUPOM = 30.00;
+
+            function formatarMoeda(valor) {
+                return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            }
+
+            function obterCarrinho() {
+                return JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+            }
+
+            function salvarCarrinho(carrinho) {
+                localStorage.setItem('carrinhoGamerVerse', JSON.stringify(carrinho));
+            }
+
+            function renderizarCarrinho() {
+                const carrinho = obterCarrinho();
+                containerItens.innerHTML = '';
+
+                if (carrinho.length === 0) {
+                    containerItens.innerHTML = '<p style="padding: 30px; text-align: center; font-size: 1.2rem;">Seu carrinho está vazio 🎮</p>';
+                    atualizarTotais(0, 0);
+                    return;
+                }
+
+                let subtotal = 0;
+                let quantidadeTotal = 0;
+
+                carrinho.forEach((item, index) => {
+                    const precoItemTotal = item.preco * item.quantidade;
+                    subtotal += precoItemTotal;
+                    quantidadeTotal += item.quantidade;
+
+                    const itemHTML = `
+                        <div class="item-carrinho" data-index="${index}">
+                            <img src="${item.img}" alt="${item.titulo}" class="item-img">
+                            <div class="item-info">
+                                <h3>${item.titulo}</h3>
+                                <p class="item-plataforma">${item.plataforma}</p>
+                                <span class="tag-disponibilidade">Disponível Imediatamente</span>
+                            </div>
+                            <div class="item-quantidade">
+                                <button class="btn-qtd btn-diminuir">-</button>
+                                <input type="number" value="${item.quantidade}" min="1" class="input-qtd" readonly>
+                                <button class="btn-qtd btn-aumentar">+</button>
+                            </div>
+                            <div class="item-preco-box">
+                                <span class="item-preco">${formatarMoeda(precoItemTotal)}</span>
+                            </div>
+                            <button class="btn-remover" title="Remover item">🗑️</button>
+                        </div>
+                    `;
+                    containerItens.insertAdjacentHTML('beforeend', itemHTML);
+                });
+
+                atualizarTotais(subtotal, quantidadeTotal);
+            }
+
+            function atualizarTotais(subtotal, quantidadeTotal) {
+                cartCountHeader.textContent = quantidadeTotal;
+                subtotalQtdLabel.textContent = `Subtotal (${quantidadeTotal} ${quantidadeTotal === 1 ? 'item' : 'itens'})`;
+                resumoSubtotal.textContent = formatarMoeda(subtotal);
+
+                let valorFinal = subtotal;
+                if (cupomAtivo && subtotal > 0) {
+                    valorFinal = Math.max(0, subtotal - DESCONTO_CUPOM);
+                    totalAntigo.textContent = formatarMoeda(subtotal);
+                    totalAntigo.style.display = 'inline';
+                } else {
+                    totalAntigo.style.display = 'none';
+                }
+
+                precoTotal.textContent = formatarMoeda(valorFinal);
+            }
+
+            // Manipulação dos eventos (Aumentar, Diminuir, Remover)
+            containerItens.addEventListener('click', (e) => {
+                const target = e.target;
+                const itemElem = target.closest('.item-carrinho');
+                if (!itemElem) return;
+
+                const index = itemElem.dataset.index;
+                let carrinho = obterCarrinho();
+
+                if (target.classList.contains('btn-aumentar')) {
+                    carrinho[index].quantidade += 1;
+                    salvarCarrinho(carrinho);
+                    renderizarCarrinho();
+                } else if (target.classList.contains('btn-diminuir')) {
+                    if (carrinho[index].quantidade > 1) {
+                        carrinho[index].quantidade -= 1;
+                        salvarCarrinho(carrinho);
+                        renderizarCarrinho();
+                    }
+                } else if (target.classList.contains('btn-remover')) {
+                    carrinho.splice(index, 1);
+                    salvarCarrinho(carrinho);
+                    renderizarCarrinho();
+                }
+            });
+
+            // Aplicação de Cupom
+            btnCupom.addEventListener('click', () => {
+                const codigoCupom = inputCupom.value.trim().toUpperCase();
+
+                if (codigoCupom === 'CUPOMFEBRE') {
+                    if (!cupomAtivo) {
+                        cupomAtivo = true;
+                        msgCupom.style.display = 'block';
+                        msgCupom.style.color = '#2ecc71';
+                        msgCupom.textContent = "✓ Cupom 'CUPOMFEBRE' aplicado (-R$ 30,00)";
+                        renderizarCarrinho();
+                    }
+                } else {
+                    msgCupom.style.display = 'block';
+                    msgCupom.style.color = '#e74c3c';
+                    msgCupom.textContent = "✕ Cupom inválido!";
+                }
+            });
+
+            renderizarCarrinho();
+        });
+    </script>
+</body>
+</html>

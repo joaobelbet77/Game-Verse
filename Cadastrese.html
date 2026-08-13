@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | Cadastre-se</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Gamer<span>Verse</span></div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="Contato.html">Contato</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="login-card">
+            <h2 class="section-title" style="margin-bottom: 20px;">Crie sua Conta</h2>
+            
+            <!-- Mensagem de Feedback -->
+            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+
+            <form id="cadastro-form">
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="Crie uma senha forte" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmar-senha">Confirmar Senha</label>
+                    <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita sua senha" required minlength="6">
+                </div>
+
+                <button type="submit" class="btn-comprar btn-login">Cadastrar</button>
+            </form>
+
+            <div class="login-footer">
+                <p>Já possui uma conta? <a href="Paginalogin.html">Faça Login</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartCountHeader = document.getElementById('cart-count');
+        const cadastroForm = document.getElementById('cadastro-form');
+        const alertaBox = document.getElementById('mensagem-alerta');
+
+        // Atualiza o contador do carrinho
+        function atualizarContador() {
+            const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+            const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+            if (cartCountHeader) cartCountHeader.textContent = totalQtd;
+        }
+
+        // Função para mostrar alertas na tela
+        function exibirMensagem(texto, tipo = 'erro') {
+            alertaBox.style.display = 'block';
+            alertaBox.style.padding = '10px';
+            alertaBox.style.marginBottom = '15px';
+            alertaBox.style.borderRadius = '6px';
+            alertaBox.style.textAlign = 'center';
+            alertaBox.style.fontSize = '0.9rem';
+
+            if (tipo === 'erro') {
+                alertaBox.style.backgroundColor = '#e74c3c';
+                alertaBox.style.color = '#fff';
+            } else {
+                alertaBox.style.backgroundColor = '#2ecc71';
+                alertaBox.style.color = '#fff';
+            }
+            alertaBox.textContent = texto;
+        }
+
+        // Evento de envio do formulário de cadastro (100% via JS local)
+        if (cadastroForm) {
+            cadastroForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const nome = document.getElementById('nome').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const senha = document.getElementById('senha').value;
+                const confirmarSenha = document.getElementById('confirmar-senha').value;
+
+                // 1. Validar se as senhas são iguais
+                if (senha !== confirmarSenha) {
+                    exibirMensagem('As senhas não coincidem!');
+                    return;
+                }
+
+                // 2. Buscar usuários cadastrados anteriormente no navegador
+                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+
+                // 3. Verificar se o e-mail já existe
+                const usuarioExiste = usuariosSalvos.some(u => u.email === email);
+                if (usuarioExiste) {
+                    exibirMensagem('Este e-mail já está cadastrado!');
+                    return;
+                }
+
+                // 4. Salvar o novo usuário no localStorage
+                usuariosSalvos.push({ nome, email, senha });
+                localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
+
+                // 5. Exibir sucesso e redirecionar para o login
+                exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'sucesso');
+
+                setTimeout(() => {
+                    window.location.href = 'Paginalogin.html';
+                }, 1500);
+            });
+        }
+
+        atualizarContador();
+    });
+</script>
+</html>

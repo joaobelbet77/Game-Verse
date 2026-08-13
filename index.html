@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamerVerse | A Sua Loja de Jogos</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .navbar .logo-svg-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .navbar .logo-svg-container svg {
+            height: 48px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        .navbar .logo-svg-container:hover svg {
+            transform: scale(1.03);
+        }
+
+        /* --- ESTILOS DO ÍCONE DE LOGIN E AÇÕES DO HEADER --- */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .user-icon:hover {
+            color: #A855F7;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo-svg-container">
+            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Órbita / Anel Espacial -->
+                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
+                
+                <!-- Corpo do Controle Gamer -->
+                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
+                
+                <!-- D-Pad (Direcionais) -->
+                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                
+                <!-- Botões de Ação -->
+                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
+                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
+                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                
+                <!-- Texto GamerVerse -->
+                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
+                    Gamer<tspan fill="#A855F7">Verse</tspan>
+                </text>
+
+                <!-- Gradientes de Cores Neon -->
+                <defs>
+                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#3B82F6" />
+                        <stop offset="100%" stop-color="#9333EA" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#06B6D4" />
+                        <stop offset="100%" stop-color="#3B82F6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Início</a></li>
+                <li><a href="lancamento.html">Lançamentos</a></li>
+                <li><a href="promocoes.html">Promoções</a></li>
+                <li><a href="Contato.html">Contato</a></li>
+            </ul>
+        </nav>
+
+        <!-- CONTAINER DE AÇÕES DO USUÁRIO (LOGIN + CARRINHO) -->
+        <div class="header-actions">
+            <a href="Paginalogin.html" class="user-icon" title="Minha Conta / Entrar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+            
+            <div class="cart-icon">
+                <a href="Carrinhodecompra.html" title="Carrinho">🛒</a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Os Melhores Lançamentos Estão Aqui</h2>
+            <p>Garanta os jogos mais aguardados do momento com os melhores preços do mercado.</p>
+            <a href="#produtos" class="btn-hero">Explorar Loja</a>
+        </div>
+    </section>
+
+    <main class="container" id="produtos">
+        <h2 class="section-title">Destaques da Temporada</h2>
+        
+        <div class="grid-produtos">
+            
+            <div class="card">
+                <div class="badge-destaque">Mais Vendido</div>
+                <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/05/gta-6-cover-art.jpg" alt="GTA VI">
+                <div class="card-body">
+                    <h3>Grand Theft Auto VI</h3>
+                    <p class="categoria">PC / Digital Key</p>
+                    <div class="preco-box">
+                        <span class="preco-antigo">R$ 349,90</span>
+                        <span class="preco-atual">R$ 299,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-desconto">-15%</div>
+                <img src="https://th.bing.com/th/id/R.02f1f8ed085eb06977d99bb33cf5802a?rik=wSfq6hOWE1eIYg&pid=ImgRaw&r=0" alt="Death Stranding 2">
+                <div class="card-body">
+                    <h3>Death Stranding 2: On The Beach</h3>
+                    <p class="categoria">PlayStation 5</p>
+                    <div class="preco-box">
+                        <span class="preco-antigo">R$ 329,90</span>
+                        <span class="preco-atual">R$ 279,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-destaque">Novo</div>
+                <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/03/mixcollage-04-mar-2025-11-19-am-4898.jpg" alt="Ghost of Yotei">
+                <div class="card-body">
+                    <h3>Ghost of Yotei</h3>
+                    <p class="categoria">PlayStation 5</p>
+                    <div class="preco-box">
+                        <span class="preco-atual">R$ 349,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-destaque">Popular</div>
+                <img src="https://images.gamethuanviet.com/wp-content/uploads/2025/07/God_of_War_Ragnarok_poster-1.webp" alt="God of War Ragnarok">
+                <div class="card-body">
+                    <h3>God Of War Ragnarok</h3>
+                    <p class="categoria">PlayStation 5 / PC</p>
+                    <div class="preco-box">
+                        <span class="preco-atual">R$ 299,00</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-destaque">Mais Vendido</div>
+                <img src="https://m.media-amazon.com/images/I/71vGeLCCJAL._AC_SX679_.jpg" alt="FC 26">
+                <div class="card-body">
+                    <h3>FC 26</h3>
+                    <p class="categoria">Multiplataforma</p>
+                    <div class="preco-box">
+                        <span class="preco-antigo">R$ 349,90</span>
+                        <span class="preco-atual">R$ 299,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-desconto">-15%</div>
+                <img src="https://m.media-amazon.com/images/I/81huEdtqVaL._AC_SX679_.jpg" alt="Minecraft">
+                <div class="card-body">
+                    <h3>Minecraft</h3>
+                    <p class="categoria">PC / Console</p>
+                    <div class="preco-box">
+                        <span class="preco-antigo">R$ 329,90</span>
+                        <span class="preco-atual">R$ 279,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-destaque">Novo</div>
+                <img src="https://th.bing.com/th/id/R.0daaab53be0b7df813ff92a6f1b1bb01?rik=EBDsD1b%2fZ38tdg&pid=ImgRaw&r=0" alt="The Last Of Us">
+                <div class="card-body">
+                    <h3>The Last Of Us</h3>
+                    <p class="categoria">PlayStation 5</p>
+                    <div class="preco-box">
+                        <span class="preco-atual">R$ 200,90</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="badge-destaque">Popular</div>
+                <img src="https://images.ctfassets.net/wn7ipiv9ue5v/461fAYkgtQzCBoK3ZUsNdH/9d9f124988e64c4427a94a99fc1922a4/RDR2_FOB_1212x1497.jpg" alt="Red Dead Redemption 2">
+                <div class="card-body">
+                    <h3>Red Dead Redemption 2</h3>
+                    <p class="categoria">Mundo Aberto / Ação</p>
+                    <div class="preco-box">
+                        <span class="preco-atual">R$ 250,00</span>
+                    </div>
+                    <button class="btn-comprar">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+    </footer>
+
+    <script>
+        // Função para exibir o alerta de confirmação de remoção de usuário
+        function removerUsuario(nome) {
+            const confirmacao = confirm(`Tem certeza que deseja remover o usuário "${nome}"?`);
+            
+            if (confirmacao) {
+                console.log(`Usuário "${nome}" removido com sucesso.`);
+                // Insira aqui o código para remover o usuário do banco ou da tela
+            } else {
+                console.log('Remoção cancelada.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartCountHeader = document.getElementById('cart-count');
+
+            function obterCarrinho() {
+                return JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+            }
+
+            function salvarCarrinho(carrinho) {
+                localStorage.setItem('carrinhoGamerVerse', JSON.stringify(carrinho));
+                atualizarContador();
+            }
+
+            function atualizarContador() {
+                const carrinho = obterCarrinho();
+                const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+                if (cartCountHeader) {
+                    cartCountHeader.textContent = totalQtd;
+                }
+            }
+
+            document.querySelectorAll('.btn-comprar').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const card = e.target.closest('.card');
+                    const titulo = card.querySelector('h3').textContent;
+                    const plataforma = card.querySelector('.categoria').textContent;
+                    const img = card.querySelector('img').src;
+                    
+                    const precoTexto = card.querySelector('.preco-atual').textContent;
+                    const preco = parseFloat(precoTexto.replace('R$', '').replace('.', '').replace(',', '.').trim());
+
+                    let carrinho = obterCarrinho();
+                    const itemExistente = carrinho.find(item => item.titulo === titulo);
+
+                    if (itemExistente) {
+                        itemExistente.quantidade += 1;
+                    } else {
+                        carrinho.push({
+                            titulo: titulo,
+                            plataforma: plataforma,
+                            preco: preco,
+                            img: img,
+                            quantidade: 1
+                        });
+                    }
+
+                    salvarCarrinho(carrinho);
+
+                    const textoOriginal = btn.textContent;
+                    btn.textContent = '✓ Adicionado!';
+                    btn.style.backgroundColor = '#2ecc71';
+                    setTimeout(() => {
+                        btn.textContent = textoOriginal;
+                        btn.style.backgroundColor = '';
+                    }, 1200);
+                });
+            });
+
+            atualizarContador();
+        });
+    </script>
+</body>
+</html>
