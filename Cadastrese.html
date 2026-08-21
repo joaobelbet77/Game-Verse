@@ -5,25 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GamerVerse | Cadastre-se</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .navbar .logo-svg-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .navbar .logo-svg-container svg {
+            height: 48px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Bloqueio visual para links desativados antes do login/cadastro */
+        .nav-disabled {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span></div>
+        <a href="#" class="logo-svg-container nav-blocked">
+            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
+                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
+                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
+                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
+                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
+                    Game<tspan fill="#A855F7">Verse</tspan>
+                </text>
+                <defs>
+                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#3B82F6" />
+                        <stop offset="100%" stop-color="#9333EA" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#06B6D4" />
+                        <stop offset="100%" stop-color="#3B82F6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
         <nav>
             <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="lancamento.html">Lançamentos</a></li>
-                <li><a href="promocoes.html">Promoções</a></li>
-                <li><a href="Contato.html">Contato</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li><a href="index.html" class="nav-blocked nav-disabled">Início</a></li>
+                <li><a href="lancamento.html" class="nav-blocked nav-disabled">Lançamentos</a></li>
+                <li><a href="promocoes.html" class="nav-blocked nav-disabled">Promoções</a></li>
+                <li><a href="Contato.html" class="nav-blocked nav-disabled">Contato</a></li>
+                <li><a href="Paginalogin.html">Login</a></li>
             </ul>
         </nav>
+
+        <div class="header-actions">
+            <a href="Paginalogin.html" class="user-icon" title="Entrar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+            
+            <div class="cart-icon">
+                <a href="#" class="nav-blocked nav-disabled" title="Carrinho">🛒</a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
     </header>
 
     <main class="container">
         <div class="login-card">
-            <h2 class="section-title" style="margin-bottom: 20px;">Crie sua Conta</h2>
+            <h2 class="section-title" style="margin-bottom: 10px;">Crie sua Conta</h2>
+            <p style="text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">
+                🔒 Crie sua conta para acessar todas as funcionalidades do site.
+            </p>
             
             <!-- Mensagem de Feedback -->
             <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
@@ -59,20 +134,19 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+        <p>&copy; 2026 GameVerse. Desenvolvido para Gamers.</p>
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const cartCountHeader = document.getElementById('cart-count');
         const cadastroForm = document.getElementById('cadastro-form');
         const alertaBox = document.getElementById('mensagem-alerta');
 
-        // Atualiza o contador do carrinho
-        function atualizarContador() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
-            const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-            if (cartCountHeader) cartCountHeader.textContent = totalQtd;
+        // Se já houver usuário logado no localStorage, redireciona para a página inicial
+        const usuarioAtivo = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (usuarioAtivo && usuarioAtivo.email) {
+            window.location.href = 'index.html';
+            return;
         }
 
         // Função para mostrar alertas na tela
@@ -94,7 +168,15 @@
             alertaBox.textContent = texto;
         }
 
-        // Evento de envio do formulário de cadastro (100% via JS local)
+        // Intercepta tentativas de clicar em links bloqueados
+        document.querySelectorAll('.nav-blocked').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                exibirMensagem('⚠️ Faça cadastro ou login antes de navegar na loja.');
+            });
+        });
+
+        // Evento de envio do formulário de cadastro
         if (cadastroForm) {
             cadastroForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -104,27 +186,23 @@
                 const senha = document.getElementById('senha').value;
                 const confirmarSenha = document.getElementById('confirmar-senha').value;
 
-                // 1. Validar se as senhas são iguais
                 if (senha !== confirmarSenha) {
                     exibirMensagem('As senhas não coincidem!');
                     return;
                 }
 
-                // 2. Buscar usuários cadastrados anteriormente no navegador
                 const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
 
-                // 3. Verificar se o e-mail já existe
                 const usuarioExiste = usuariosSalvos.some(u => u.email === email);
                 if (usuarioExiste) {
                     exibirMensagem('Este e-mail já está cadastrado!');
                     return;
                 }
 
-                // 4. Salvar o novo usuário no localStorage
+                // Salva o novo usuário
                 usuariosSalvos.push({ nome, email, senha });
                 localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
 
-                // 5. Exibir sucesso e redirecionar para o login
                 exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'sucesso');
 
                 setTimeout(() => {
@@ -132,8 +210,7 @@
                 }, 1500);
             });
         }
-
-        atualizarContador();
     });
 </script>
+</body>
 </html>

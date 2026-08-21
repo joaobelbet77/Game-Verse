@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamerVerse | Resgatar Código</title>
+  <style>
+    :root {
+      --bg-color: #0b0e14;
+      --card-bg: #151a23;
+      --primary: #0088ff;
+      --primary-hover: #0066cc;
+      --text: #ffffff;
+      --text-secondary: #94a3b8;
+      --border: #2a3241;
+      --success: #2ecc71;
+      --error: #e74c3c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* Navbar */
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: var(--card-bg); border-bottom: 1px solid var(--border); }
+    .logo { font-size: 1.5rem; font-weight: bold; color: var(--text); }
+    .logo span { color: var(--primary); }
+    nav ul { display: flex; list-style: none; gap: 20px; }
+    nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: 0.2s; }
+    nav a:hover, nav a.active { color: var(--text); }
+
+    /* Main Container */
+    .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+    .redeem-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 500px; padding: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; }
+    
+    .redeem-header { margin-bottom: 24px; }
+    .redeem-header h2 { font-size: 1.6rem; margin-bottom: 8px; }
+    .redeem-header p { color: var(--text-secondary); font-size: 0.95rem; }
+
+    /* Form & Input */
+    .input-group { margin-bottom: 20px; text-align: left; }
+    .input-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+    .key-input { width: 100%; padding: 14px; background: #0f131a; border: 1px solid var(--border); border-radius: 8px; color: #fff; font-family: monospace; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
+    .key-input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 8px rgba(0, 136, 255, 0.3); }
+
+    .btn-redeem { width: 100%; padding: 14px; background: var(--primary); border: none; color: #fff; font-weight: bold; font-size: 1rem; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-redeem:hover { background: var(--primary-hover); }
+
+    /* Feedback Messages */
+    .message-box { display: none; margin-top: 20px; padding: 16px; border-radius: 8px; text-align: center; font-size: 0.95rem; }
+    .message-box.success { background: rgba(46, 204, 113, 0.1); border: 1px solid var(--success); color: var(--success); }
+    .message-box.error { background: rgba(231, 76, 60, 0.1); border: 1px solid var(--error); color: var(--error); }
+
+    .game-redeemed-info { margin-top: 12px; font-weight: bold; font-size: 1.1rem; color: #fff; }
+
+    /* Footer */
+    footer { text-align: center; padding: 20px; background: var(--card-bg); border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo">Game<span>Verse</span></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="carrinhodecompra.html">Carrinho</a></li>
+        <li><a href="resgatar.html" class="active">Resgatar Código</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div class="redeem-card">
+      <div class="redeem-header">
+        <h2>Resgatar Código de Ativação</h2>
+        <p>Insira a sua chave de produto do GamerVerse abaixo para adicionar o jogo à sua conta.</p>
+      </div>
+
+      <form id="form-resgate" onsubmit="processarResgate(event)">
+        <div class="input-group">
+          <label for="key-input">Código de Ativação (20 caracteres)</label>
+          <input 
+            type="text" 
+            id="key-input" 
+            class="key-input" 
+            placeholder="GVRSE-XXXX-XXXX-XXXX" 
+            maxlength="19" 
+            required 
+            autocomplete="off"
+            oninput="formatarKeyInput(this)"
+          >
+        </div>
+        <button type="submit" class="btn-redeem">Ativar Jogo</button>
+      </form>
+
+      <!-- Caixas de resposta dinâmica -->
+      <div id="msg-box" class="message-box"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+  </footer>
+
+  <script>
+    // Formata o texto inserido automaticamente para o padrão XXXX-XXXX-XXXX-XXXX
+    function formatarKeyInput(input) {
+      let value = input.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+      let formatted = '';
+
+      for (let i = 0; i < value.length; i++) {
+        if (i > 0 && i % 5 === 0 && i < 20) {
+          formatted += '-';
+        }
+        formatted += value[i];
+      }
+      input.value = formatted.substring(0, 19);
+    }
+
+    function processarResgate(e) {
+      e.preventDefault();
+      
+      const input = document.getElementById('key-input');
+      const msgBox = document.getElementById('msg-box');
+      const codigo = input.value.trim();
+
+      // Validação básica do formato (GVRSE-XXXX-XXXX-XXXX)
+      if (codigo.length < 19 || !codigo.startsWith('GVRSE-')) {
+        exibirMensagem('error', '❌ Código inválido! Verifique o formato inserido.');
+        return;
+      }
+
+      // Verifica no localStorage se a chave já foi usada
+      let chavesUsadas = JSON.parse(localStorage.getItem('keysResgatadasGamerVerse')) || [];
+
+      if (chavesUsadas.includes(codigo)) {
+        exibirMensagem('error', '⚠️ Este código de ativação já foi resgatado anteriormente.');
+        return;
+      }
+
+      // Registra o resgate e adiciona o jogo à biblioteca do usuário
+      chavesUsadas.push(codigo);
+      localStorage.setItem('keysResgatadasGamerVerse', JSON.stringify(chavesUsadas));
+
+      // Simulação do nome do jogo ativado
+      const jogosDisponiveis = ["Cyberpunk 2077", "Elden Ring", "God of War Ragnarök", "GTA V", "Starfield"];
+      const jogoAtivado = jogosDisponiveis[Math.floor(Math.random() * jogosDisponiveis.length)];
+
+      exibirMensagem('success', `
+        🎉 <strong>Código Ativado com Sucesso!</strong>
+        <div class="game-redeemed-info">${jogoAtivado}</div>
+        <p style="font-size: 0.85rem; margin-top: 8px; color: var(--text-secondary);">O produto foi adicionado à sua biblioteca digital.</p>
+      `);
+
+      input.value = '';
+    }
+
+    function exibirMensagem(tipo, conteudo) {
+      const msgBox = document.getElementById('msg-box');
+      msgBox.className = `message-box ${tipo}`;
+      msgBox.innerHTML = conteudo;
+      msgBox.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GamerVerse | A Sua Loja de Jogos</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- ITEM 1: SCRIPT DE PROTEÇÃO DE ROTA (GUARDA DE NAVEGAÇÃO) -->
+    <script>
+        (function() {
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+            if (!usuarioLogado || !usuarioLogado.email) {
+                // Se não estiver logado, impede a permanência na página inicial
+                window.location.href = 'Paginalogin.html';
+            }
+        })();
+    </script>
+
     <style>
         .navbar .logo-svg-container {
             display: flex;
@@ -25,10 +37,10 @@
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        .user-icon {
+        .user-icon, .library-icon {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -38,9 +50,92 @@
             transition: transform 0.2s ease, color 0.2s ease;
         }
 
-        .user-icon:hover {
+        .user-icon:hover, .library-icon:hover {
             color: #A855F7;
-            transform: scale(1.1);
+            transform: scale(1.05);
+        }
+
+        /* ITEM 5: ESTILO DA SAUDAÇÃO E NOME DO USUÁRIO NO HEADER */
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(147, 51, 234, 0.15);
+            border: 1px solid rgba(147, 51, 234, 0.4);
+            transition: all 0.2s ease;
+        }
+        .user-greeting:hover {
+            background: rgba(147, 51, 234, 0.3);
+            border-color: #a855f7;
+            transform: translateY(-1px);
+        }
+
+        /* ITEM 2: ESTILOS DO MODAL DE AVISO DE LOGIN */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 14, 20, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-box {
+            background: #151a23;
+            border: 1px solid #2a3241;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .modal-box h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        .modal-box p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-modal {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: opacity 0.2s;
+        }
+        .btn-modal:hover {
+            opacity: 0.9;
+        }
+        .btn-modal-primary {
+            background: linear-gradient(135deg, #3b82f6, #9333ea);
+            color: #fff;
+        }
+        .btn-modal-secondary {
+            background: transparent;
+            border: 1px solid #2a3241;
+            color: #94a3b8;
         }
     </style>
 </head>
@@ -66,7 +161,7 @@
                 
                 <!-- Texto GamerVerse -->
                 <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
-                    Gamer<tspan fill="#A855F7">Verse</tspan>
+                    Game<tspan fill="#A855F7">Verse</tspan>
                 </text>
 
                 <!-- Gradientes de Cores Neon -->
@@ -87,17 +182,24 @@
                 <li><a href="index.html" class="active">Início</a></li>
                 <li><a href="lancamento.html">Lançamentos</a></li>
                 <li><a href="promocoes.html">Promoções</a></li>
-                <li><a href="Contato.html">Contato</a></li>
+                <li><a href="biblioteca.html">Minha Biblioteca</a></li>
+                <li><a href="contato.html">Contato</a></li>
             </ul>
         </nav>
 
-        <!-- CONTAINER DE AÇÕES DO USUÁRIO (LOGIN + CARRINHO) -->
+        <!-- CONTAINER DE AÇÕES DO USUÁRIO -->
         <div class="header-actions">
-            <a href="Paginalogin.html" class="user-icon" title="Minha Conta / Entrar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="biblioteca.html" class="library-icon" title="Minha Biblioteca de Jogos">
+                🎮
+            </a>
+
+            <!-- ITEM 5: ÍCONE/SAUDAÇÃO COM NOME DO USUÁRIO -->
+            <a href="perfil.html" class="user-greeting" id="user-profile-link" title="Ir ao perfil">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
+                <span id="nome-usuario-header">Perfil</span>
             </a>
             
             <div class="cart-icon">
@@ -106,6 +208,18 @@
             </div>
         </div>
     </header>
+
+    <!-- ITEM 2: MODAL DE AVISO DE LOGIN NECESSÁRIO -->
+    <div class="modal-overlay" id="modal-login">
+        <div class="modal-box">
+            <h3>🔒 Acesso Restrito</h3>
+            <p>Sua sessão expirou ou você ainda não realizou o login para navegar na loja.</p>
+            <div class="modal-actions">
+                <a href="Paginalogin.html" class="btn-modal btn-modal-primary">Entrar</a>
+                <a href="Cadastrese.html" class="btn-modal btn-modal-secondary">Cadastrar</a>
+            </div>
+        </div>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
@@ -204,7 +318,7 @@
 
             <div class="card">
                 <div class="badge-destaque">Novo</div>
-                <img src="https://th.bing.com/th/id/R.0daaab53be0b7df813ff92a6f1b1bb01?rik=EBDsD1b%2fZ38tdg&pid=ImgRaw&r=0" alt="The Last Of Us">
+                <img src="https://upload.wikimedia.org/wikipedia/pt/b/be/The_Last_of_Us_capa.png?utm_source=pt.wikipedia.org&utm_campaign=index&utm_content=original" alt="The Last Of Us">
                 <div class="card-body">
                     <h3>The Last Of Us</h3>
                     <p class="categoria">PlayStation 5</p>
@@ -236,21 +350,28 @@
     </footer>
 
     <script>
-        // Função para exibir o alerta de confirmação de remoção de usuário
-        function removerUsuario(nome) {
-            const confirmacao = confirm(`Tem certeza que deseja remover o usuário "${nome}"?`);
-            
-            if (confirmacao) {
-                console.log(`Usuário "${nome}" removido com sucesso.`);
-                // Insira aqui o código para remover o usuário do banco ou da tela
-            } else {
-                console.log('Remoção cancelada.');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const cartCountHeader = document.getElementById('cart-count');
+            const userProfileLink = document.getElementById('user-profile-link');
+            const nomeUsuarioHeader = document.getElementById('nome-usuario-header');
+            const modalLogin = document.getElementById('modal-login');
 
+            // --- LÓGICA DE VERIFICAÇÃO DE LOGIN E NOME DINÂMICO (ITENS 1 & 5) ---
+            const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+            if (usuarioLogado && usuarioLogado.email) {
+                userProfileLink.href = 'perfil.html';
+                
+                // Extrai apenas o primeiro nome para a exibição no menu
+                const primeiroNome = usuarioLogado.nome ? usuarioLogado.nome.trim().split(' ')[0] : 'Usuário';
+                nomeUsuarioHeader.textContent = `Olá, ${primeiroNome}`;
+                userProfileLink.title = `Perfil de ${primeiroNome}`;
+            } else {
+                // ITEM 2: EXIBE O MODAL SE NÃO HOUVER SESSÃO VÁLIDA
+                modalLogin.style.display = 'flex';
+            }
+
+            // --- LÓGICA DO CARRINHO ---
             function obterCarrinho() {
                 return JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
             }

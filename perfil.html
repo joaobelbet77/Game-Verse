@@ -5,11 +5,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GamerVerse | Meu Perfil</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #151a23;
+            --primary: #9333ea;
+            --primary-accent: #3b82f6;
+            --text: #ffffff;
+            --text-secondary: #94a3b8;
+            --border: #2a3241;
+            --success: #2ecc71;
+            --error: #e74c3c;
+            --admin: #f39c12;
+        }
+
+        .navbar .logo-svg-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .navbar .logo-svg-container svg {
+            height: 48px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        .navbar .logo-svg-container:hover svg {
+            transform: scale(1.03);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .user-icon:hover {
+            color: #A855F7;
+            transform: scale(1.1);
+        }
+
+        .container {
+            padding: 40px 20px;
+            flex: 1;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 0 auto;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input {
+            padding: 12px;
+            background: #0f131a;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .btn-comprar {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary-accent), var(--primary));
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            box-sizing: border-box;
+        }
+
+        .btn-comprar:hover {
+            opacity: 0.9;
+        }
+
+        .admin-section {
+            background: rgba(243, 156, 18, 0.05);
+            border: 1px solid var(--admin);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .admin-section h3 {
+            font-size: 1.1rem;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(243, 156, 18, 0.3);
+        }
+    </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span></div>
+        <a href="index.html" class="logo-svg-container">
+            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
+                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
+                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
+                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
+                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
+                    Game<tspan fill="#A855F7">Verse</tspan>
+                </text>
+                <defs>
+                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#3B82F6" />
+                        <stop offset="100%" stop-color="#9333EA" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#06B6D4" />
+                        <stop offset="100%" stop-color="#3B82F6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
         <nav>
             <ul>
                 <li><a href="index.html">Início</a></li>
@@ -19,6 +157,20 @@
                 <li><a href="perfil.html" class="active">Perfil</a></li>
             </ul>
         </nav>
+
+        <div class="header-actions">
+            <a href="perfil.html" class="user-icon" title="Meu Perfil">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+            
+            <div class="cart-icon">
+                <a href="Carrinhodecompra.html" title="Carrinho">🛒</a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
     </header>
 
     <main class="container">
@@ -42,8 +194,8 @@
             </form>
 
             <!-- SEÇÃO EXCLUSIVA DE ALTERAÇÕES RÁPIDAS DO ADMIN -->
-            <div id="secao-controles-admin" class="admin-section" style="display: none; margin-top: 25px; border-color: #f39c12;">
-                <h3 style="color: #f39c12; border-bottom-color: #f39c12;">Controles Rápidos de Administrador</h3>
+            <div id="secao-controles-admin" class="admin-section" style="display: none; margin-top: 25px;">
+                <h3 style="color: var(--admin);">Controles Rápidos de Administrador</h3>
                 
                 <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
                     <label style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; cursor: pointer;">
@@ -56,11 +208,11 @@
                         <input type="checkbox" id="check-banner-promo" style="width: 20px; height: 20px;">
                     </label>
 
-                    <button id="btn-salvar-config-admin" class="btn-comprar" style="border-color: #f39c12; color: #f39c12; margin-top: 10px;">
+                    <button id="btn-salvar-config-admin" class="btn-comprar" style="background: transparent; border: 1px solid var(--admin); color: var(--admin); margin-top: 10px;">
                         Salvar Configurações do Sistema
                     </button>
 
-                    <a href="admin.html" class="btn-comprar" style="text-decoration: none; text-align: center; background-color: #f39c12; color: #030a16; font-weight: bold; margin-top: 5px;">
+                    <a href="admin.html" class="btn-comprar" style="text-decoration: none; text-align: center; background: var(--admin); color: #030a16; font-weight: bold; margin-top: 5px;">
                         Abrir Painel Admin Completo
                     </a>
                 </div>
@@ -68,8 +220,8 @@
 
             <!-- Botões de Ação Comuns -->
             <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 25px;">
-                <button id="btn-logout" class="btn-comprar" style="border-color: #e74c3c; color: #e74c3c;">Sair da Conta</button>
-                <a href="index.html" class="btn-comprar" style="text-decoration: none; text-align: center;">Voltar à Loja</a>
+                <button id="btn-logout" class="btn-comprar" style="background: transparent; border: 1px solid #e74c3c; color: #e74c3c;">Sair da Conta</button>
+                <a href="index.html" class="btn-comprar" style="text-decoration: none; text-align: center; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);">Voltar à Loja</a>
             </div>
         </div>
     </main>
@@ -83,8 +235,19 @@
         const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
         const alertaPerfil = document.getElementById('alerta-perfil');
 
-        // Se não estiver logado, redireciona para a página de login
-        if (!usuarioLogado) {
+        // Se não houver usuário ativo no localStorage, bloqueia o acesso e vai para login
+        if (!usuarioLogado || !usuarioLogado.email) {
+            window.location.href = 'Paginalogin.html';
+            return;
+        }
+
+        // Validação adicional no "Banco de Dados" (usuariosGamerVerse)
+        let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+        const usuarioExisteNoBanco = usuariosSalvos.some(u => u.email === usuarioLogado.email);
+
+        // Se o usuário logado não for o Admin e não existir na lista de cadastrados reais, faz logout automático
+        if (usuarioLogado.email !== 'admin@gamerverse.com' && !usuarioExisteNoBanco) {
+            localStorage.removeItem('usuarioLogado');
             window.location.href = 'Paginalogin.html';
             return;
         }
@@ -93,9 +256,16 @@
         const inputEmail = document.getElementById('perfil-email');
         const secaoAdmin = document.getElementById('secao-controles-admin');
 
-        // Preenche os campos do perfil
+        // Preenche os campos do perfil com as informações reais
         inputNome.value = usuarioLogado.nome;
         inputEmail.value = usuarioLogado.email;
+
+        // Atualiza contador do carrinho no cabeçalho
+        const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
+        const cartCountHeader = document.getElementById('cart-count');
+        if (cartCountHeader) {
+            cartCountHeader.textContent = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+        }
 
         function exibirAlerta(mensagem, tipo = 'sucesso') {
             alertaPerfil.style.display = 'block';
@@ -115,13 +285,12 @@
 
             if (!novoNome) return;
 
-            // Atualiza sessão atual
+            // Atualiza sessão ativa no localStorage
             usuarioLogado.nome = novoNome;
             localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
 
-            // Atualiza a lista geral de usuários cadastrados se não for admin
+            // Atualiza o registro correspondente no banco geral de usuários cadastrados
             if (usuarioLogado.email !== 'admin@gamerverse.com') {
-                let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
                 const idx = usuariosSalvos.findIndex(u => u.email === usuarioLogado.email);
                 if (idx !== -1) {
                     usuariosSalvos[idx].nome = novoNome;

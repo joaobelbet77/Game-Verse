@@ -3,27 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamerVerse | Login</title>
+    <title>GamerVerse | Login Obrigatório</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .navbar .logo-svg-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .navbar .logo-svg-container svg {
+            height: 48px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Bloqueio visual para links desativados antes do login */
+        .nav-disabled {
+            opacity: 0.5;
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span></div>
+        <a href="#" class="logo-svg-container nav-blocked">
+            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
+                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
+                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
+                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
+                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
+                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
+                    Game<tspan fill="#A855F7">Verse</tspan>
+                </text>
+                <defs>
+                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#3B82F6" />
+                        <stop offset="100%" stop-color="#9333EA" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#06B6D4" />
+                        <stop offset="100%" stop-color="#3B82F6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </a>
         <nav>
             <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="lancamento.html">Lançamentos</a></li>
-                <li><a href="promocoes.html">Promoções</a></li>
-                <li><a href="Contato.html">Contato</a></li>
-                <li><a href="login.html" class="active">Login</a></li>
+                <li><a href="index.html" class="nav-blocked nav-disabled">Início</a></li>
+                <li><a href="lancamento.html" class="nav-blocked nav-disabled">Lançamentos</a></li>
+                <li><a href="promocoes.html" class="nav-blocked nav-disabled">Promoções</a></li>
+                <li><a href="Contato.html" class="nav-blocked nav-disabled">Contato</a></li>
+                <li><a href="Paginalogin.html" class="active">Login</a></li>
             </ul>
         </nav>
+
+        <div class="header-actions">
+            <a href="Paginalogin.html" class="user-icon" title="Entrar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </a>
+            
+            <div class="cart-icon">
+                <a href="#" class="nav-blocked nav-disabled" title="Carrinho">🛒</a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
     </header>
 
     <main class="container">
         <div class="login-card">
-            <h2 class="section-title" style="margin-bottom: 20px;">Acesse sua Conta</h2>
+            <h2 class="section-title" style="margin-bottom: 10px;">Acesse sua Conta</h2>
+            <p style="text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">
+                🔒 Faça login para liberar a navegação por toda a loja.
+            </p>
             
             <!-- Mensagem de Feedback -->
             <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
@@ -51,8 +126,6 @@
 
             <div class="login-footer">
                 <p>Não possui uma conta? <a href="Cadastrese.html">Cadastre-se</a></p>
-                <p style="margin-top: 10px;">
-                </p>
             </div>
         </div>
     </main>
@@ -63,18 +136,17 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const cartCountHeader = document.getElementById('cart-count');
         const loginForm = document.getElementById('login-form');
         const alertaBox = document.getElementById('mensagem-alerta');
 
-        // Atualiza a quantidade do carrinho
-        function atualizarContador() {
-            const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
-            const totalQtd = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
-            if (cartCountHeader) cartCountHeader.textContent = totalQtd;
+        // Se já houver um usuário logado no localStorage, redireciona para a loja imediatamente
+        const usuarioAtivo = JSON.parse(localStorage.getItem('usuarioLogado'));
+        if (usuarioAtivo && usuarioAtivo.email) {
+            window.location.href = 'index.html';
+            return;
         }
 
-        // Função para mostrar os avisos diretamente na TELA (sem pop-up)
+        // Função para exibir alertas na tela
         function exibirMensagem(texto, tipo = 'erro') {
             alertaBox.style.display = 'block';
             alertaBox.style.padding = '10px';
@@ -93,6 +165,14 @@
             alertaBox.textContent = texto;
         }
 
+        // Intercepta tentativas de clicar em links bloqueados
+        document.querySelectorAll('.nav-blocked').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                exibirMensagem('⚠️ Você precisa fazer login antes de navegar na loja.');
+            });
+        });
+
         if (loginForm) {
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -100,39 +180,41 @@
                 const email = document.getElementById('email').value.trim();
                 const senha = document.getElementById('senha').value;
 
-                // Busca usuários salvos no localStorage (criados no cadastro)
+                // Busca a lista de usuários no localStorage
                 const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
 
-                // Verifica se o usuário existe
                 const usuarioEncontrado = usuariosSalvos.find(u => u.email === email && u.senha === senha);
                 const eAdmin = (email === 'admin@gamerverse.com' && senha === '123456');
 
                 if (usuarioEncontrado || eAdmin) {
-                    exibirMensagem('Login efetuado com sucesso! Redirecionando...', 'sucesso');
+                    exibirMensagem('Login efetuado! Liberando acesso...', 'sucesso');
 
-                    // Salva a sessão no navegador
                     const dadosSessao = {
                         nome: usuarioEncontrado ? usuarioEncontrado.nome : 'Administrador',
                         email: email
                     };
+                    // auth-guard.js - Coloque no <head> de páginas que exigem login
+(function() {
+    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (!usuarioLogado || !usuarioLogado.email) {
+        window.location.href = 'Paginalogin.html';
+    }
+})();
+                    // Salva a sessão ativa
                     localStorage.setItem('usuarioLogado', JSON.stringify(dadosSessao));
 
-                    // Redireciona para o painel do administrador quando for admin
                     setTimeout(() => {
                         if (eAdmin) {
                             window.location.href = 'admin.html';
                         } else {
                             window.location.href = 'index.html';
                         }
-                    }, 1200);
+                    }, 1000);
                 } else {
-                    // EXIBE NA TELA EM VEZ DE USAR ALERT()
                     exibirMensagem('E-mail ou senha incorretos.');
                 }
             });
         }
-
-        atualizarContador();
     });
 </script>
 </body>

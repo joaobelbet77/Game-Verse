@@ -9,7 +9,7 @@
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span></div>
+        <div class="logo">Game<span>Verse</span></div>
         <nav>
             <ul>
                 <li><a href="index.html">Início</a></li>
@@ -54,7 +54,7 @@
             </div>
 
             <div class="contato-form-box">
-                <!-- ALTERADO: action apontando para o Formspree com envio via AJAX/JS -->
+              
                 <form id="contato-form" action="https://formspree.io/f/xaqrzrvb" method="POST" class="contato-form">
                     
                     <div id="alerta-envio" style="display: none; padding: 12px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-size: 0.95rem;"></div>
@@ -97,7 +97,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Atualiza contador do carrinho
+        
             const cartCountHeader = document.getElementById('cart-count');
             function atualizarContador() {
                 const carrinho = JSON.parse(localStorage.getItem('carrinhoGamerVerse')) || [];
@@ -108,7 +108,7 @@
             }
             atualizarContador();
 
-            // Envio do formulário sem recarregar a página
+         
             const form = document.getElementById('contato-form');
             const alerta = document.getElementById('alerta-envio');
             const btnEnviar = document.getElementById('btn-enviar');

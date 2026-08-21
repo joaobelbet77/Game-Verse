@@ -85,7 +85,7 @@
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span> Admin</div>
+        <div class="logo">Game<span>Verse</span> Admin</div>
         <nav>
             <ul>
                 <li><a href="index.html">Loja</a></li>
@@ -186,7 +186,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
+        <p>&copy; 2026 GameVerse. Desenvolvido para Gamers.</p>
     </footer>
 
 <script>
@@ -194,7 +194,7 @@
         const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
         // Validação de acesso restrito ao Admin
-        if (!usuarioLogado || usuarioLogado.email !== 'admin@gamerverse.com') {
+        if (!usuarioLogado || usuarioLogado.email !== 'admin@gameverse.com') {
             alert('Acesso negado. Esta página é restrita ao Administrador.');
             window.location.href = 'Paginalogin.html';
             return;
@@ -291,7 +291,7 @@
             let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
 
             const jaExiste = usuariosSalvos.some(u => u.email === email);
-            if (jaExiste || email === 'admin@gamerverse.com') {
+            if (jaExiste || email === 'admin@gameverse.com') {
                 exibirAlerta(alertaUsuario, 'Este e-mail já está em uso por outro usuário.', 'erro');
                 return;
             }

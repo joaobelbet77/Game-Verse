@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamerVerse | Pagamento</title>
+  <!-- Biblioteca para geração do QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0b0e14;
+      --card-bg: #151a23;
+      --primary: #0088ff;
+      --primary-hover: #0066cc;
+      --text: #ffffff;
+      --text-secondary: #94a3b8;
+      --border: #2a3241;
+      --pix-color: #00bdae;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background-color: var(--bg-color); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+    .checkout-container { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 480px; padding: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .checkout-header { text-align: center; margin-bottom: 20px; }
+    .checkout-header h2 { font-size: 1.5rem; margin-bottom: 4px; }
+    .checkout-header p { font-size: 0.9rem; color: var(--text-secondary); }
+
+    .order-summary { background: #0f131a; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 20px; text-align: center; }
+    .order-summary span { display: block; font-size: 0.85rem; color: var(--text-secondary); }
+    .order-summary strong { font-size: 1.4rem; color: var(--primary); }
+
+    .payment-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab-btn { flex: 1; padding: 12px; background: transparent; border: 1px solid var(--border); color: var(--text-secondary); border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+    .tab-btn.active { border-color: var(--primary); background: rgba(0, 136, 255, 0.1); color: var(--primary); }
+
+    .payment-method { display: none; }
+    .payment-method.active { display: block; }
+
+    /* Pix Box e Timer */
+    .pix-box { text-align: center; background: #0f131a; padding: 20px; border-radius: 8px; border: 1px dashed var(--border); }
+    .qr-container { background: #ffffff; padding: 12px; display: inline-block; border-radius: 8px; margin-bottom: 12px; }
+    .pix-copy-btn { width: 100%; padding: 12px; background: var(--pix-color); border: none; color: #000; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 12px; }
+    .timer-text { font-size: 0.85rem; color: #e74c3c; margin-top: 8px; font-weight: bold; }
+
+    /* Form Cartão */
+    .form-group { margin-bottom: 16px; text-align: left; }
+    .form-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px; background: #0f131a; border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 0.95rem; }
+    .form-group input:focus { border-color: var(--primary); outline: none; }
+    .form-row { display: flex; gap: 12px; }
+
+    .pay-btn { width: 100%; padding: 14px; background: var(--primary); border: none; color: #fff; font-weight: bold; font-size: 1rem; border-radius: 8px; cursor: pointer; margin-top: 12px; transition: 0.2s; }
+    .pay-btn:hover { background: var(--primary-hover); }
+    .back-link { display: block; text-align: center; margin-top: 16px; color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; }
+    .back-link:hover { color: var(--text); }
+
+    /* Toast Notification */
+    .toast { position: fixed; bottom: 20px; right: 20px; background: #151a23; border: 1px solid var(--primary); color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); display: none; z-index: 1000; }
+
+    /* Modal Key do Jogo */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 2000; }
+    .modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 420px; width: 90%; text-align: center; }
+    .key-box { background: #0f131a; border: 1px dashed var(--primary); padding: 12px; font-family: monospace; font-size: 1.2rem; color: var(--pix-color); margin: 16px 0; letter-spacing: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="checkout-container">
+  <div class="checkout-header">
+    <h2>GameVerse Checkout</h2>
+    <p>Escolha a forma de pagamento</p>
+  </div>
+
+  <div class="order-summary">
+    <span>Valor Total a Pagar:</span>
+    <strong id="display-total">R$ 0,00</strong>
+  </div>
+
+  <div class="payment-tabs">
+    <button class="tab-btn active" onclick="switchTab('pix')">Pix</button>
+    <button class="tab-btn" onclick="switchTab('card')">Cartão de Crédito</button>
+  </div>
+
+  <!-- Método Pix -->
+  <div id="pix-method" class="payment-method active">
+    <div class="pix-box">
+      <div class="qr-container">
+        <div id="qrcode"></div>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-secondary);">Escaneie o QR Code ou copie a chave abaixo:</p>
+      <p class="timer-text">QR Code expira em: <span id="pix-timer">15:00</span></p>
+      <button class="pix-copy-btn" onclick="copyPixCode()">Copiar Código Pix</button>
+      <button class="pay-btn" style="margin-top: 15px; background: #2ecc71;" onclick="simularPagamentoPix()">Já realizei o pagamento</button>
+    </div>
+  </div>
+
+  <!-- Método Cartão -->
+  <div id="card-method" class="payment-method">
+    <form onsubmit="finalizarPedido(event)">
+      <div class="form-group">
+        <label>Número do Cartão</label>
+        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" required>
+      </div>
+      <div class="form-group">
+        <label>Nome do Titular</label>
+        <input type="text" placeholder="NOME COMO NO CARTÃO" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label>Validade</label>
+          <input type="text" placeholder="MM/AA" maxlength="5" required>
+        </div>
+        <div class="form-group" style="width: 100px;">
+          <label>CVV</label>
+          <input type="text" placeholder="123" maxlength="4" required>
+        </div>
+      </div>
+      <button type="submit" class="pay-btn">Confirmar Pagamento</button>
+    </form>
+  </div>
+
+  <a href="carrinho.html" class="back-link">← Voltar ao Carrinho</a>
+</div>
+
+<!-- Toast Notificação -->
+<div id="toast" class="toast"></div>
+
+<!-- Modal de Liberação da Key -->
+<div id="modal-sucesso" class="modal-overlay">
+  <div class="modal-content">
+    <h3 style="color: #2ecc71;">🎉 Pagamento Aprovado!</h3>
+    <p style="font-size: 0.9rem; margin-top: 8px; color: var(--text-secondary);">Sua chave de ativação foi gerada:</p>
+    
+    <div class="key-box" id="game-key">GVRSE-0000-0000-0000</div>
+    
+    <button class="pay-btn" onclick="copiarKey()">Copiar Chave</button>
+    <button class="back-link" style="border:none; background:none; cursor:pointer; width:100%;" onclick="concluirPedido()">Ir para a Vitrine</button>
+  </div>
+</div>
+
+<script>
+  let valorTotal = parseFloat(localStorage.getItem('totalPagamentoGamerVerse')) || 0;
+  let tempoRestante = 15 * 60; // 15 minutos
+
+  function showToast(mensagem) {
+    const toast = document.getElementById('toast');
+    toast.textContent = mensagem;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  }
+
+  function switchTab(method) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.payment-method').forEach(div => div.classList.remove('active'));
+
+    if (method === 'pix') {
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('pix-method').classList.add('active');
+    } else {
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('card-method').classList.add('active');
+    }
+  }
+
+  function gerarQRCodePix() {
+    const valorStr = valorTotal.toFixed(2);
+    const payloadPix = `00020126360014BR.GOV.BCB.PIX0114+5511999999999520400005303986540${valorStr.length}${valorStr}5802BR5910GAMERVERSE6009SAO PAULO62070503***6304`;
+
+    const container = document.getElementById('qrcode');
+    container.innerHTML = "";
+
+    new QRCode(container, {
+      text: payloadPix,
+      width: 160,
+      height: 160,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  }
+
+  function iniciarTimerPix() {
+    const timerElem = document.getElementById('pix-timer');
+    const interval = setInterval(() => {
+      const min = Math.floor(tempoRestante / 60);
+      const seg = tempoRestante % 60;
+      timerElem.textContent = `${min.toString().padStart(2, '0')}:${seg.toString().padStart(2, '0')}`;
+      
+      if (tempoRestante <= 0) {
+        clearInterval(interval);
+        timerElem.textContent = "Expirado!";
+        showToast("O QR Code Pix expirou. Recarregue a página.");
+      }
+      tempoRestante--;
+    }, 1000);
+  }
+
+  function copyPixCode() {
+    const valorStr = valorTotal.toFixed(2);
+    const payloadPix = `00020126360014BR.GOV.BCB.PIX0114+5511999999999520400005303986540${valorStr.length}${valorStr}5802BR5910GAMERVERSE6009SAO PAULO62070503***6304`;
+    
+    navigator.clipboard.writeText(payloadPix);
+    showToast("Código Pix copiado!");
+  }
+
+  function simularPagamentoPix() {
+    exibirModalSucesso();
+  }
+
+  function finalizarPedido(e) {
+    e.preventDefault();
+    exibirModalSucesso();
+  }
+
+  function exibirModalSucesso() {
+    const keyAleatoria = 'GVRSE-' + Math.random().toString(36).substring(2, 6).toUpperCase() + 
+                         '-' + Math.random().toString(36).substring(2, 6).toUpperCase() + 
+                         '-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+    
+    document.getElementById('game-key').textContent = keyAleatoria;
+    document.getElementById('modal-sucesso').style.display = 'flex';
+  }
+
+  function copiarKey() {
+    const key = document.getElementById('game-key').textContent;
+    navigator.clipboard.writeText(key);
+    showToast("Chave do jogo copiada!");
+  }
+
+  function concluirPedido() {
+    localStorage.removeItem('carrinhoGamerVerse');
+    window.location.href = 'index.html';
+  }
+
+  window.onload = () => {
+    document.getElementById('display-total').textContent = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    gerarQRCodePix();
+    iniciarTimerPix();
+  };
+</script>
+
+</body>
+</html>

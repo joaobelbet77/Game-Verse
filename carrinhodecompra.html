@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 <body>
 
     <header class="navbar">
-        <div class="logo">Gamer<span>Verse</span></div>
+        <div class="logo">Game<span>Verse</span></div>
         <nav>
             <ul>
                 <li><a href="index.html">Início</a></li>
@@ -77,7 +77,7 @@
         <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
     </footer>
 
-    <!-- LÓGICA JAVASCRIPT INTEGRADA AO LOCALSTORAGE -->
+    <!-- LÓGICA JAVASCRIPT INTEGRADA AO LOCALSTORAGE E TELA DE PAGAMENTO -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const containerItens = document.getElementById('carrinho-itens');
@@ -89,6 +89,7 @@
             const inputCupom = document.getElementById('input-cupom');
             const btnCupom = document.getElementById('btn-aplicar-cupom');
             const msgCupom = document.getElementById('msg-cupom');
+            const btnFinalizar = document.querySelector('.btn-finalizar');
 
             let cupomAtivo = false;
             const DESCONTO_CUPOM = 30.00;
@@ -163,9 +164,12 @@
                 }
 
                 precoTotal.textContent = formatarMoeda(valorFinal);
+
+                // Armazena o valor total final para ser lido na tela de pagamento (pagamento.html)
+                localStorage.setItem('totalPagamentoGamerVerse', valorFinal.toFixed(2));
             }
 
-            // Manipulação dos eventos (Aumentar, Diminuir, Remover)
+            // Eventos de alterar quantidade ou remover itens
             containerItens.addEventListener('click', (e) => {
                 const target = e.target;
                 const itemElem = target.closest('.item-carrinho');
@@ -208,6 +212,16 @@
                     msgCupom.style.color = '#e74c3c';
                     msgCupom.textContent = "✕ Cupom inválido!";
                 }
+            });
+
+            // Redirecionamento para a página de pagamento
+            btnFinalizar.addEventListener('click', () => {
+                const carrinho = obterCarrinho();
+                if (carrinho.length === 0) {
+                    alert("Seu carrinho está vazio!");
+                    return;
+                }
+                window.location.href = 'pagamento.html';
             });
 
             renderizarCarrinho();
