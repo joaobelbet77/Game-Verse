@@ -27,4 +27,7 @@ CREATE TABLE pedidos (
     status VARCHAR(30) DEFAULT 'Pendente',
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+<<<<<<< HEAD
 
+=======
+>>>>>>> 45f978c338140f23d1806dc9fd889b5db0915c5c
