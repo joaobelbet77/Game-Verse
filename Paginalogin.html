@@ -139,13 +139,6 @@
         const loginForm = document.getElementById('login-form');
         const alertaBox = document.getElementById('mensagem-alerta');
 
-        // Se já houver um usuário logado no localStorage, redireciona para a loja imediatamente
-        const usuarioAtivo = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioAtivo && usuarioAtivo.email) {
-            window.location.href = 'index.html';
-            return;
-        }
-
         // Função para exibir alertas na tela
         function exibirMensagem(texto, tipo = 'erro') {
             alertaBox.style.display = 'block';
@@ -177,39 +170,46 @@
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
 
-                const email = document.getElementById('email').value.trim();
-                const senha = document.getElementById('senha').value;
+                const email = document.getElementById('email').value.trim().toLowerCase();
+                const senha = document.getElementById('senha').value.trim();
 
-                // Busca a lista de usuários no localStorage
-                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+                // 1. VERIFICAÇÃO DO ADMINISTRADOR
+                const eAdminEmail = (email === 'admin@gameverse.com' || email === 'admin@gamerverse.com');
+                const eAdminSenha = (senha === '123456' || senha === '123' || senha === 'admin');
 
-                const usuarioEncontrado = usuariosSalvos.find(u => u.email === email && u.senha === senha);
-                const eAdmin = (email === 'admin@gamerverse.com' && senha === '123456');
-
-                if (usuarioEncontrado || eAdmin) {
-                    exibirMensagem('Login efetuado! Liberando acesso...', 'sucesso');
+                if (eAdminEmail && eAdminSenha) {
+                    exibirMensagem('Login de Administrador efetuado!', 'sucesso');
 
                     const dadosSessao = {
-                        nome: usuarioEncontrado ? usuarioEncontrado.nome : 'Administrador',
-                        email: email
+                        nome: 'Administrador',
+                        email: 'admin@gameverse.com'
                     };
-                    // auth-guard.js - Coloque no <head> de páginas que exigem login
-(function() {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || !usuarioLogado.email) {
-        window.location.href = 'Paginalogin.html';
-    }
-})();
-                    // Salva a sessão ativa
+
                     localStorage.setItem('usuarioLogado', JSON.stringify(dadosSessao));
 
                     setTimeout(() => {
-                        if (eAdmin) {
-                            window.location.href = 'admin.html';
-                        } else {
-                            window.location.href = 'index.html';
-                        }
-                    }, 1000);
+                        window.location.href = 'admin.html';
+                    }, 800);
+                    return;
+                }
+
+                // 2. VERIFICAÇÃO DOS USUÁRIOS COMUNS CADASTRADOS
+                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+                const usuarioEncontrado = usuariosSalvos.find(u => u.email.toLowerCase() === email && u.senha === senha);
+
+                if (usuarioEncontrado) {
+                    exibirMensagem('Login efetuado! Liberando acesso...', 'sucesso');
+
+                    const dadosSessao = {
+                        nome: usuarioEncontrado.nome,
+                        email: usuarioEncontrado.email
+                    };
+
+                    localStorage.setItem('usuarioLogado', JSON.stringify(dadosSessao));
+
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 800);
                 } else {
                     exibirMensagem('E-mail ou senha incorretos.');
                 }
