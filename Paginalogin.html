@@ -3,219 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamerVerse | Login Obrigatório</title>
+    <title>GamerVerse | Login</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .navbar .logo-svg-container {
+        body {
+            background-color: #0b0e14;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
             display: flex;
-            align-items: center;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .navbar .logo-svg-container svg {
-            height: 48px;
-            width: auto;
-            transition: transform 0.3s ease;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
 
-        /* Bloqueio visual para links desativados antes do login */
-        .nav-disabled {
-            opacity: 0.5;
-            cursor: not-allowed !important;
-            pointer-events: none;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .user-icon {
+        .login-container {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
-            color: #FFFFFF;
-            font-size: 1.2rem;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: #121824;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-card h2 {
+            margin-top: 0;
+            color: #ffffff;
+            border-left: 4px solid #00d8ff;
+            padding-left: 10px;
+        }
+
+        .alerta-erro {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #1e293b;
+            border-radius: 4px;
+            background-color: #0b0e14;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .btn-entrar {
+            width: 100%;
+            padding: 12px;
+            background-color: #00d8ff;
+            border: none;
+            border-radius: 4px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-entrar:hover {
+            background-color: #00b4d8;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 24px 18px;
+            }
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <a href="#" class="logo-svg-container nav-blocked">
-            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
-                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
-                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
-                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
-                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
-                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
-                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
-                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
-                    Game<tspan fill="#A855F7">Verse</tspan>
-                </text>
-                <defs>
-                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#3B82F6" />
-                        <stop offset="100%" stop-color="#9333EA" />
-                    </linearGradient>
-                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#06B6D4" />
-                        <stop offset="100%" stop-color="#3B82F6" />
-                    </linearGradient>
-                </defs>
-            </svg>
-        </a>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="nav-blocked nav-disabled">Início</a></li>
-                <li><a href="lancamento.html" class="nav-blocked nav-disabled">Lançamentos</a></li>
-                <li><a href="promocoes.html" class="nav-blocked nav-disabled">Promoções</a></li>
-                <li><a href="Contato.html" class="nav-blocked nav-disabled">Contato</a></li>
-                <li><a href="Paginalogin.html" class="active">Login</a></li>
-            </ul>
-        </nav>
-
-        <div class="header-actions">
-            <a href="Paginalogin.html" class="user-icon" title="Entrar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </a>
-            
-            <div class="cart-icon">
-                <a href="#" class="nav-blocked nav-disabled" title="Carrinho">🛒</a>
-                <span class="cart-count" id="cart-count">0</span>
-            </div>
-        </div>
-    </header>
-
-    <main class="container">
+    <main class="login-container">
         <div class="login-card">
-            <h2 class="section-title" style="margin-bottom: 10px;">Acesse sua Conta</h2>
-            <p style="text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">
-                🔒 Faça login para liberar a navegação por toda a loja.
-            </p>
-            
-            <!-- Mensagem de Feedback -->
-            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+            <h2>Acesse sua Conta</h2>
+            <p style="color: #94a3b8; font-size: 0.85rem;">🔒 Faça login para liberar a navegação por toda a loja.</p>
 
-            <form id="login-form">
+            <div id="alerta-erro" class="alerta-erro">E-mail ou senha incorretos.</div>
+
+            <form id="form-login">
                 <div class="form-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Seu e-mail cadastrado" required>
+                    <input type="email" id="email" placeholder="admin@gameverse.com" required>
                 </div>
-
                 <div class="form-group">
                     <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" placeholder="Sua senha" required>
+                    <input type="password" id="senha" placeholder="******" required>
                 </div>
-
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" name="lembrar"> Lembrar-me
-                    </label>
-                    <a href="Esqueceusenha.html" class="esqueci-senha">Esqueceu a senha?</a>
-                </div>
-
-                <button type="submit" class="btn-comprar btn-login">Entrar</button>
+                <button type="submit" class="btn-entrar">Entrar</button>
             </form>
-
-            <div class="login-footer">
-                <p>Não possui uma conta? <a href="Cadastrese.html">Cadastre-se</a></p>
-            </div>
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 GamerVerse. Desenvolvido para Gamers.</p>
-    </footer>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const loginForm = document.getElementById('login-form');
-        const alertaBox = document.getElementById('mensagem-alerta');
+        const formLogin = document.getElementById('form-login');
+        const alertaErro = document.getElementById('alerta-erro');
 
-        // Se já houver um usuário logado no localStorage, redireciona para a loja imediatamente
-        const usuarioAtivo = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioAtivo && usuarioAtivo.email) {
-            window.location.href = 'index.html';
-            return;
-        }
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
 
-        // Função para exibir alertas na tela
-        function exibirMensagem(texto, tipo = 'erro') {
-            alertaBox.style.display = 'block';
-            alertaBox.style.padding = '10px';
-            alertaBox.style.marginBottom = '15px';
-            alertaBox.style.borderRadius = '6px';
-            alertaBox.style.textAlign = 'center';
-            alertaBox.style.fontSize = '0.9rem';
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const senha = document.getElementById('senha').value.trim();
 
-            if (tipo === 'erro') {
-                alertaBox.style.backgroundColor = '#e74c3c';
-                alertaBox.style.color = '#fff';
-            } else {
-                alertaBox.style.backgroundColor = '#2ecc71';
-                alertaBox.style.color = '#fff';
+            alertaErro.style.display = 'none';
+
+            // 1. CREDENCIAIS DE ADMINISTRADOR
+            // Permite admin@gameverse.com e admin@gamerverse.com
+            const eAdminEmail = (email === 'admin@gameverse.com' || email === 'admin@gamerverse.com');
+            const eAdminSenha = (senha === '123' || senha === '123456' || senha === 'admin');
+
+            if (eAdminEmail && eAdminSenha) {
+                const usuarioAdmin = {
+                    nome: 'Administrador',
+                    email: 'admin@gameverse.com' // Salva exatamente como o admin.html espera
+                };
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioAdmin));
+                window.location.href = 'admin.html';
+                return;
             }
-            alertaBox.textContent = texto;
-        }
 
-        // Intercepta tentativas de clicar em links bloqueados
-        document.querySelectorAll('.nav-blocked').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                exibirMensagem('⚠️ Você precisa fazer login antes de navegar na loja.');
-            });
+            // 2. CREDENCIAIS DE USUÁRIOS COMUNS CADASTRADOS
+            const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+            const usuarioEncontrado = usuariosCadastrados.find(u => u.email.toLowerCase() === email && u.senha === senha);
+
+            if (usuarioEncontrado) {
+                const usuarioLogado = {
+                    nome: usuarioEncontrado.nome,
+                    email: usuarioEncontrado.email
+                };
+                localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+                window.location.href = 'index.html';
+            } else {
+                alertaErro.style.display = 'block';
+            }
         });
-
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const email = document.getElementById('email').value.trim();
-                const senha = document.getElementById('senha').value;
-
-                // Busca a lista de usuários no localStorage
-                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
-
-                const usuarioEncontrado = usuariosSalvos.find(u => u.email === email && u.senha === senha);
-                const eAdmin = (email === 'admin@gamerverse.com' && senha === '123456');
-
-                if (usuarioEncontrado || eAdmin) {
-                    exibirMensagem('Login efetuado! Liberando acesso...', 'sucesso');
-
-                    const dadosSessao = {
-                        nome: usuarioEncontrado ? usuarioEncontrado.nome : 'Administrador',
-                        email: email
-                    };
-                    // auth-guard.js - Coloque no <head> de páginas que exigem login
-(function() {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!usuarioLogado || !usuarioLogado.email) {
-        window.location.href = 'Paginalogin.html';
-    }
-})();
-                    // Salva a sessão ativa
-                    localStorage.setItem('usuarioLogado', JSON.stringify(dadosSessao));
-
-                    setTimeout(() => {
-                        if (eAdmin) {
-                            window.location.href = 'admin.html';
-                        } else {
-                            window.location.href = 'index.html';
-                        }
-                    }, 1000);
-                } else {
-                    exibirMensagem('E-mail ou senha incorretos.');
-                }
-            });
-        }
     });
 </script>
+<script src="responsive.js"></script>
 </body>
 </html>

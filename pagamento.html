@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GamerVerse | Pagamento</title>
+  <link rel="stylesheet" href="style.css">
   <!-- Biblioteca para geração do QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -62,6 +63,19 @@
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 2000; }
     .modal-content { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; max-width: 420px; width: 90%; text-align: center; }
     .key-box { background: #0f131a; border: 1px dashed var(--primary); padding: 12px; font-family: monospace; font-size: 1.2rem; color: var(--pix-color); margin: 16px 0; letter-spacing: 2px; }
+
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .checkout-container { padding: 20px 15px; }
+      .payment-tabs { gap: 6px; }
+      .tab-btn { padding: 10px 8px; font-size: 0.9rem; }
+      .form-row { flex-direction: column; gap: 0; }
+      .form-row .form-group[style*="width: 100px"],
+      .form-row .form-group { width: 100% !important; }
+      .qr-container { max-width: 100%; overflow: hidden; }
+      .qr-container img, .qr-container canvas { max-width: 100%; height: auto; }
+      .key-box { font-size: 1rem; letter-spacing: 1px; word-break: break-all; }
+    }
   </style>
 </head>
 <body>
@@ -120,7 +134,7 @@
     </form>
   </div>
 
-  <a href="carrinho.html" class="back-link">← Voltar ao Carrinho</a>
+  <a href="carrinhodecompra.html" class="back-link">← Voltar ao Carrinho</a>
 </div>
 
 <!-- Toast Notificação -->
@@ -240,5 +254,6 @@
   };
 </script>
 
+<script src="responsive.js"></script>
 </body>
 </html>

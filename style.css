@@ -1,5 +1,10 @@
-/* Configurações Globais e Reset */
-* {
+/* Configurações Globais e Reset Responsivo */
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -20,6 +25,14 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+    overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+}
+
+img, video, canvas, svg {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Navbar */
@@ -27,12 +40,50 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 8%;
+    padding: 18px 8%;
     background-color: #06101e;
     border-bottom: 2px solid #142843;
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: padding 0.3s ease;
+}
+
+/* Botão Hamburger (Mobile Toggle) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(8.5px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8.5px) rotate(-45deg);
 }
 
 .logo {
@@ -161,6 +212,21 @@ body {
     transform: translateY(-8px);
     border-color: var(--primary-color);
     box-shadow: 0 8px 25px rgba(0, 210, 255, 0.2);
+}
+
+.card > img,
+.card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 2px solid #142843;
+    transition: transform 0.3s ease;
+}
+
+.card:hover > img,
+.card:hover .card-img {
+    transform: scale(1.03);
 }
 
 /* Simulador de Imagem */
@@ -1140,4 +1206,655 @@ footer {
 .admin-table tr:hover td {
     background-color: #0e203a;
     color: #fff;
+}
+
+/* ==========================================================================
+   SISTEMA DE RESPONSIVIDADE GAMEVERSE (MOBILE-FIRST & ADAPTIVE BREAKPOINTS)
+   ========================================================================== */
+
+/* 1. Utilitários Globais de Responsividade */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #142843;
+}
+
+.table-responsive .admin-table {
+    margin-top: 0;
+    min-width: 540px;
+}
+
+/* Animação suave para abertura do menu mobile */
+@keyframes fadeInNav {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   BREAKPOINT: Telas Médias / Laptops Pequenos (max-width: 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 16px 4%;
+    }
+
+    .navbar nav ul li {
+        margin: 0 12px;
+    }
+
+    .hero-content h2 {
+        font-size: 36px;
+    }
+
+    .container,
+    .container-contato,
+    .container-carrinho,
+    .container-lancamentos,
+    .destaque-lancamento,
+    .banner-promocao,
+    .p2p-container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+/* ==========================================================================
+   BREAKPOINT: Tablets e Smartphones (max-width: 880px)
+   - Ativação do Menu Hambúrguer e reordenação do Header
+   - Layouts de duas colunas passam para coluna única flexível
+   ========================================================================== */
+@media (max-width: 880px) {
+    /* Navbar Responsiva com Menu Mobile */
+    .navbar {
+        padding: 14px 20px;
+        flex-wrap: wrap;
+    }
+
+    .navbar .logo,
+    .navbar .logo-svg-container {
+        order: 1;
+        flex-shrink: 0;
+    }
+
+    .navbar .logo-svg-container svg {
+        max-width: 170px;
+        height: 40px;
+    }
+
+    .navbar .header-actions,
+    .navbar .cart-icon {
+        order: 2;
+        margin-left: auto;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        order: 3;
+    }
+
+    .navbar nav {
+        display: none;
+        order: 10;
+        width: 100%;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #142843;
+        animation: fadeInNav 0.25s ease-out forwards;
+    }
+
+    .navbar.nav-active nav,
+    .navbar nav.active {
+        display: block;
+    }
+
+    .navbar nav ul {
+        flex-direction: column;
+        width: 100%;
+        gap: 6px;
+    }
+
+    .navbar nav ul li {
+        margin: 0;
+        width: 100%;
+    }
+
+    .navbar nav ul li a {
+        display: block;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 15px;
+        color: var(--text-muted);
+        background-color: rgba(14, 32, 58, 0.4);
+        border: 1px solid transparent;
+        transition: all 0.2s ease;
+    }
+
+    .navbar nav ul li a:hover,
+    .navbar nav ul li a.active {
+        background-color: rgba(0, 210, 255, 0.12);
+        border-color: rgba(0, 210, 255, 0.3);
+        color: var(--primary-color);
+        padding-left: 20px;
+    }
+
+    /* Página de Contato */
+    .contato-wrapper {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 30px 24px;
+    }
+
+    /* Página do Carrinho */
+    .carrinho-wrapper {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .item-carrinho {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 16px;
+        gap: 15px;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .item-img {
+        width: 75px;
+        height: 75px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    .item-info {
+        flex: 1 1 200px;
+        margin-left: 12px;
+        padding-right: 0;
+    }
+
+    .item-quantidade {
+        order: 3;
+    }
+
+    .item-preco-box {
+        order: 4;
+        min-width: auto;
+        text-align: right;
+        flex: 1;
+        width: auto;
+    }
+
+    .btn-remover {
+        order: 5;
+        margin-left: 12px;
+    }
+
+    /* Página de Lançamentos */
+    .destaque-banner {
+        height: auto;
+        min-height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    .banner-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    .banner-sombra {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(3, 10, 22, 0.4) 0%, rgba(3, 10, 22, 0.95) 100%);
+        z-index: 2;
+    }
+
+    .banner-conteudo {
+        position: relative;
+        width: 100%;
+        height: auto;
+        padding: 30px 24px;
+        z-index: 3;
+        background: transparent;
+    }
+
+    .banner-conteudo h2 {
+        font-size: clamp(24px, 5vw, 36px);
+    }
+
+    .card-lancamento {
+        flex-direction: column;
+    }
+
+    .card-lancamento:hover {
+        transform: translateY(-4px);
+    }
+
+    .img-container {
+        width: 100%;
+        min-width: 100%;
+        height: 220px;
+    }
+
+    .btn-notificar, .btn-reserva {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Perfil do Jogador & Jogos Ativos */
+    .profile-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    /* Mercado P2P */
+    .p2p-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .btn-anunciar {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   BREAKPOINT: Smartphones e Telas Pequenas (max-width: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Hero */
+    .hero {
+        height: auto;
+        min-height: 380px;
+        padding: 60px 20px;
+    }
+
+    .hero-content h2 {
+        font-size: clamp(24px, 6vw, 34px);
+        margin-bottom: 12px;
+    }
+
+    .hero-content p {
+        font-size: 15px;
+        margin-bottom: 22px;
+    }
+
+    .btn-hero {
+        display: inline-block;
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 20px;
+        text-align: center;
+    }
+
+    /* Espaçamentos Globais de Seção */
+    .container,
+    .container-contato,
+    .container-carrinho,
+    .container-lancamentos,
+    .destaque-lancamento,
+    .banner-promocao,
+    .p2p-container {
+        margin-top: 30px;
+        margin-bottom: 35px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .section-title {
+        font-size: 22px;
+        margin-bottom: 24px;
+        padding-left: 12px;
+        border-left-width: 4px;
+    }
+
+    /* Grids */
+    .grid-produtos {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+        gap: 20px;
+    }
+
+    /* Contato */
+    .contato-wrapper {
+        padding: 22px 16px;
+    }
+
+    .contato-info h2 {
+        font-size: 26px;
+    }
+
+    .redes-sociais {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .social-link {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 90px;
+        text-align: center;
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+
+    .contato-form-box {
+        padding: 20px 16px;
+    }
+
+    /* Promoções */
+    .banner-promocao {
+        margin: 20px auto 10px auto;
+        padding: 35px 18px;
+    }
+
+    .promo-content h2 {
+        font-size: clamp(24px, 7vw, 40px);
+    }
+
+    .promo-content p {
+        font-size: 14px;
+    }
+
+    .contador-box {
+        gap: 8px;
+    }
+
+    .tempo {
+        padding: 8px 12px;
+        min-width: 58px;
+        font-size: 12px;
+    }
+
+    .tempo span {
+        font-size: 20px;
+    }
+
+    /* Painel Administrativo */
+    .admin-section {
+        padding: 18px 14px;
+        margin-bottom: 20px;
+    }
+
+    .admin-section h3 {
+        font-size: 17px;
+    }
+
+    /* Modais */
+    .modal-box,
+    .modal-content,
+    .modal-form-content {
+        width: 92%;
+        max-width: 440px;
+        padding: 22px 18px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-modal,
+    .btn-modal-cancel,
+    .btn-modal-confirm {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Biblioteca de Jogos */
+    .games-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)) !important;
+        gap: 18px !important;
+    }
+
+    .header-section {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 12px;
+    }
+
+    .header-section .btn-shop {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Resgatar Código */
+    .redeem-card {
+        padding: 24px 16px !important;
+    }
+
+    .key-input {
+        font-size: 0.95rem !important;
+        letter-spacing: 1px !important;
+        padding: 12px 8px !important;
+    }
+
+    /* Checkout e Pagamento */
+    .checkout-container {
+        padding: 22px 16px !important;
+    }
+
+    .payment-tabs {
+        gap: 6px !important;
+    }
+
+    .tab-btn {
+        padding: 10px 8px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .form-row {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* ==========================================================================
+   BREAKPOINT: Smartphones Compactos (max-width: 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+    /* Navbar compacta */
+    .navbar {
+        padding: 10px 14px;
+    }
+
+    .navbar .logo-svg-container svg {
+        max-width: 140px;
+        height: 34px;
+    }
+
+    .navbar .logo {
+        font-size: 1.15rem;
+    }
+
+    .header-actions {
+        gap: 8px;
+    }
+
+    .user-greeting {
+        padding: 5px 8px;
+        font-size: 0.78rem;
+        max-width: 105px;
+    }
+
+    .user-greeting span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Grid de Produtos em 1 coluna */
+    .grid-produtos {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .card img, .card-img {
+        height: 200px;
+    }
+
+    .card-body {
+        padding: 16px;
+    }
+
+    .card-body h3 {
+        font-size: 17px;
+    }
+
+    .btn-comprar {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    /* Carrinho */
+    .barra-frete-container {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .item-carrinho {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .item-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .item-info h3 {
+        font-size: 15px;
+    }
+
+    .carrinho-resumo {
+        padding: 18px 14px;
+    }
+
+    .cupom-container {
+        flex-direction: column;
+    }
+
+    .btn-cupom {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .preco-total {
+        font-size: 22px;
+    }
+
+    .btn-finalizar {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    /* Cards de Login / Cadastro / Recuperação */
+    .login-card {
+        margin: 20px auto;
+        padding: 22px 16px;
+        border-radius: 8px;
+    }
+
+    .login-card h2 {
+        font-size: 1.35rem;
+    }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-login,
+    .btn-entrar {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    /* Inputs: tamanho mínimo 16px para evitar zoom indesejado no iOS Safari */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
+    /* Estatísticas do Jogador */
+    .user-stats {
+        padding: 10px 0;
+    }
+
+    .stat-number {
+        font-size: 1.05rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    /* Rodapé */
+    footer {
+        padding: 25px 15px;
+        margin-top: 40px;
+        font-size: 13px;
+    }
+}
+
+/* ==========================================================================
+   BREAKPOINT: Telas Muito Pequenas (max-width: 360px)
+   ========================================================================== */
+@media (max-width: 360px) {
+    .navbar .logo-svg-container svg {
+        max-width: 120px;
+        height: 28px;
+    }
+
+    .user-greeting {
+        max-width: 80px;
+        padding: 4px 6px;
+    }
+
+    .btn-hero {
+        max-width: 100%;
+    }
+
+    .redes-sociais {
+        flex-direction: column;
+    }
+
+    .social-link {
+        width: 100%;
+    }
 }

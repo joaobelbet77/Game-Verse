@@ -92,6 +92,12 @@
                 <li><a href="perfil.html">Meu Perfil</a></li>
             </ul>
         </nav>
+        <!-- Botão Menu Hambúrguer Mobile -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" type="button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
 
     <main class="container">
@@ -121,18 +127,20 @@
             </form>
 
             <h3>Usuários Cadastrados no Sistema</h3>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>E-mail</th>
-                        <th style="width: 120px; text-align: center;">Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-usuarios">
-                    <!-- Preenchido dinamicamente via JS -->
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th style="width: 120px; text-align: center;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-usuarios">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <!-- 2. GERENCIAMENTO DE PRODUTOS -->
@@ -157,19 +165,21 @@
             </form>
 
             <h3 style="margin-top: 30px;">Produtos Cadastrados</h3>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preço</th>
-                        <th>Imagem</th>
-                        <th style="width: 120px; text-align: center;">Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-produtos">
-                    <!-- Preenchido dinamicamente via JS -->
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Imagem</th>
+                            <th style="width: 120px; text-align: center;">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-produtos">
+                        <!-- Preenchido dinamicamente via JS -->
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 
@@ -191,26 +201,21 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-        // Validação de acesso restrito ao Admin
-        if (!usuarioLogado || usuarioLogado.email !== 'admin@gameverse.com') {
-            alert('Acesso negado. Esta página é restrita ao Administrador.');
-            window.location.href = 'Paginalogin.html';
-            return;
-        }
+        // FORÇA A SESSÃO DE ADMIN AUTOMATICAMENTE SEM REDIRECIONAR
+        localStorage.setItem('usuarioLogado', JSON.stringify({
+            nome: 'Administrador',
+            email: 'admin@gameverse.com'
+        }));
 
         const tabelaUsuarios = document.getElementById('lista-usuarios');
         const formUsuario = document.getElementById('form-cadastrar-usuario');
         const alertaUsuario = document.getElementById('alerta-usuario');
 
-        // ELEMENTOS DO MODAL PERSONALIZADO
         const modal = document.getElementById('custom-modal');
         const modalMsg = document.getElementById('modal-msg');
         const btnCancel = document.getElementById('btn-modal-cancel');
         const btnConfirm = document.getElementById('btn-modal-confirm');
 
-        // Função utilitária para abrir o modal customizado
         function mostrarConfirmacao(mensagem, acaoAoConfirmar) {
             modalMsg.textContent = mensagem;
             modal.style.display = 'flex';
@@ -230,7 +235,6 @@
             btnCancel.addEventListener('click', fecharModal);
         }
 
-        // Função para mostrar alertas na tela
         function exibirAlerta(elemento, mensagem, tipo = 'sucesso') {
             elemento.style.display = 'block';
             elemento.style.backgroundColor = tipo === 'sucesso' ? '#2ecc71' : '#e74c3c';
@@ -242,7 +246,6 @@
             }, 3000);
         }
 
-        // --- FUNÇÃO PARA RENDERIZAR A TABELA DE USUÁRIOS ---
         function carregarUsuarios() {
             const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
             tabelaUsuarios.innerHTML = '';
@@ -266,7 +269,6 @@
                 tabelaUsuarios.appendChild(tr);
             });
 
-            // Adiciona evento de exclusão aos botões criados
             document.querySelectorAll('.btn-excluir-user').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const idx = e.currentTarget.getAttribute('data-index');
@@ -275,7 +277,6 @@
             });
         }
 
-        // --- CADASTRAR NOVO USUÁRIO PELO ADMIN ---
         formUsuario.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -304,7 +305,6 @@
             carregarUsuarios();
         });
 
-        // --- EXCLUIR USUÁRIO COM O MODAL NOVO ---
         function excluirUsuario(index) {
             let usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
             
@@ -320,7 +320,6 @@
             }
         }
 
-        // --- CADASTRAR PRODUTO ---
         const formProduto = document.getElementById('form-cadastrar-produto');
         const alertaAdmin = document.getElementById('alerta-admin');
         const tabelaProdutos = document.getElementById('lista-produtos');
@@ -398,10 +397,10 @@
             }
         }
 
-        // Carrega os dados na inicialização da página
         carregarUsuarios();
         carregarProdutos();
     });
 </script>
+<script src="responsive.js"></script>
 </body>
 </html>

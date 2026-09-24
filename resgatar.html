@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GamerVerse | Resgatar Código</title>
+  <link rel="stylesheet" href="style.css">
   <style>
     :root {
       --bg-color: #0b0e14;
@@ -19,14 +20,6 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
     body { background-color: var(--bg-color); color: var(--text); display: flex; flex-direction: column; min-height: 100vh; }
-
-    /* Navbar */
-    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 8%; background: var(--card-bg); border-bottom: 1px solid var(--border); }
-    .logo { font-size: 1.5rem; font-weight: bold; color: var(--text); }
-    .logo span { color: var(--primary); }
-    nav ul { display: flex; list-style: none; gap: 20px; }
-    nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; transition: 0.2s; }
-    nav a:hover, nav a.active { color: var(--text); }
 
     /* Main Container */
     .container { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
@@ -54,6 +47,12 @@
 
     /* Footer */
     footer { text-align: center; padding: 20px; background: var(--card-bg); border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.85rem; }
+
+    @media (max-width: 768px) {
+      .container { padding: 24px 16px; }
+      .redeem-card { padding: 24px 16px; }
+      .key-input { font-size: 0.95rem; letter-spacing: 1px; padding: 12px 8px; }
+    }
   </style>
 </head>
 <body>
@@ -67,6 +66,12 @@
         <li><a href="resgatar.html" class="active">Resgatar Código</a></li>
       </ul>
     </nav>
+    <!-- Botão Menu Hambúrguer Mobile -->
+    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" type="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
 
   <main class="container">
@@ -163,5 +168,6 @@
     }
   </script>
 
+  <script src="responsive.js"></script>
 </body>
 </html>
