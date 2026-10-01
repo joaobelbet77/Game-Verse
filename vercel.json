@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/login", "destination": "/Paginalogin.html" },
+    { "source": "/Login", "destination": "/Paginalogin.html" },
+    { "source": "/paginalogin", "destination": "/Paginalogin.html" },
+    { "source": "/cadastro", "destination": "/Cadastrese.html" },
+    { "source": "/Cadastro", "destination": "/Cadastrese.html" },
+    { "source": "/cadastrese", "destination": "/Cadastrese.html" },
+    { "source": "/esqueceusenha", "destination": "/Esqueceusenha.html" },
+    { "source": "/recuperar-senha", "destination": "/Esqueceusenha.html" },
+    { "source": "/carrinho", "destination": "/carrinhodecompra.html" },
+    { "source": "/Carrinhodecompra.html", "destination": "/carrinhodecompra.html" },
+    { "source": "/Contato.html", "destination": "/contato.html" }
+  ]
+}
