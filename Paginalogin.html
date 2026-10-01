@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GamerVerse | Login</title>
+    <title>GamerVerse | Portal de Acesso Corporativo</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #00f0ff;
-            --primary-glow: rgba(0, 240, 255, 0.4);
-            --primary-hover: #00b4d8;
-            --secondary: #7000ff;
-            --secondary-glow: rgba(112, 0, 255, 0.4);
-            --accent-purple: #a855f7;
-            --bg-dark: #070a10;
-            --card-bg: rgba(13, 19, 32, 0.92);
-            --border-color: rgba(0, 240, 255, 0.22);
-            --border-hover: rgba(0, 240, 255, 0.5);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --input-bg: rgba(7, 11, 20, 0.85);
-            --danger: #ff4d6d;
-            --success: #10b981;
+            --corp-bg: #0b1120;
+            --corp-surface: #111c33;
+            --corp-surface-hover: #162442;
+            --corp-border: #1e2e4f;
+            --corp-border-focus: #2563eb;
+            --corp-primary: #2563eb;
+            --corp-primary-hover: #1d4ed8;
+            --corp-text-title: #f8fafc;
+            --corp-text-body: #cbd5e1;
+            --corp-text-muted: #64748b;
+            --corp-success: #10b981;
+            --corp-error: #ef4444;
+            --corp-input-bg: #0d1527;
         }
 
         * {
@@ -32,245 +30,260 @@
         }
 
         body {
-            background: radial-gradient(circle at 50% 15%, #1e0c38 0%, var(--bg-dark) 65%);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--corp-bg);
+            background-image: 
+                radial-gradient(at 100% 0%, rgba(37, 99, 235, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(30, 41, 59, 0.4) 0px, transparent 50%);
+            color: var(--corp-text-body);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Top Header Corporativo */
+        .corp-header {
+            width: 100%;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(11, 17, 32, 0.6);
+            backdrop-filter: blur(8px);
+        }
+
+        .corp-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .corp-brand-logo {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border-radius: 8px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px 16px;
-            position: relative;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
         }
 
-        /* Top Brand Navigation */
-        .auth-topbar {
-            width: 100%;
-            max-width: 460px;
+        .corp-brand-info h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--corp-text-title);
+            letter-spacing: -0.3px;
+            line-height: 1.2;
+        }
+
+        .corp-brand-info span {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #38bdf8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .corp-header-actions {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            gap: 16px;
         }
 
-        .auth-logo {
-            display: flex;
+        .corp-btn-secondary {
+            display: inline-flex;
             align-items: center;
-            text-decoration: none;
-            transition: transform 0.2s ease;
-        }
-
-        .auth-logo:hover {
-            transform: scale(1.03);
-        }
-
-        .auth-logo svg {
-            height: 38px;
-            width: auto;
-        }
-
-        .btn-voltar-loja {
-            color: var(--text-muted);
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--corp-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--corp-text-body);
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.03);
             transition: all 0.2s ease;
         }
 
-        .btn-voltar-loja:hover {
-            color: var(--primary);
-            border-color: var(--border-color);
-            background: rgba(0, 240, 255, 0.08);
+        .corp-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.07);
+            color: #ffffff;
+            border-color: #334155;
         }
 
-        /* Main Container */
-        .auth-container {
-            width: 100%;
-            max-width: 460px;
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 32px 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.12);
-            transition: border-color 0.3s ease;
-        }
-
-        /* Tabs Selector */
-        .auth-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            background: rgba(6, 10, 18, 0.7);
-            border-radius: 8px;
-            padding: 4px;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            gap: 4px;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 10px 14px;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.25s ease;
+        /* Container Principal */
+        .corp-main {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .corp-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--corp-surface);
+            border: 1px solid var(--corp-border);
+            border-radius: 12px;
+            padding: 36px 32px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Badge de Segurança */
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
             gap: 6px;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: #60a5fa;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
-        .tab-btn:hover {
-            color: var(--text-main);
+        .corp-card-header {
+            margin-bottom: 24px;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.25));
-            color: var(--primary);
-            border: 1px solid rgba(0, 240, 255, 0.35);
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
-        }
-
-        /* Headers */
-        .auth-header {
-            text-align: center;
-            margin-bottom: 22px;
-        }
-
-        .auth-header h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2rem;
+        .corp-card-header h2 {
+            font-size: 1.45rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 4px;
+            color: var(--corp-text-title);
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
         }
 
-        .auth-header h1 span {
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        .auth-header p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Feedback Alerts */
-        .alerta {
-            padding: 12px 14px;
-            border-radius: 8px;
-            margin-bottom: 18px;
+        .corp-card-header p {
             font-size: 0.88rem;
+            color: var(--corp-text-muted);
+            line-height: 1.5;
+        }
+
+        /* Seletor de Abas Corporativo */
+        .corp-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--corp-border);
+            margin-bottom: 24px;
+            gap: 20px;
+        }
+
+        .corp-tab-btn {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--corp-text-muted);
+            font-size: 0.92rem;
+            font-weight: 600;
+            padding: 10px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            bottom: -1px;
+        }
+
+        .corp-tab-btn:hover {
+            color: var(--corp-text-title);
+        }
+
+        .corp-tab-btn.active {
+            color: #38bdf8;
+            border-bottom-color: #2563eb;
+        }
+
+        /* Alertas */
+        .corp-alert {
+            padding: 12px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
             display: none;
             align-items: center;
             gap: 10px;
             line-height: 1.4;
-            animation: fadeIn 0.3s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
+        .corp-alert-error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
         }
 
-        .alerta-erro {
-            background: rgba(255, 77, 109, 0.15);
-            border: 1px solid rgba(255, 77, 109, 0.4);
-            color: #ff859b;
+        .corp-alert-success {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #86efac;
         }
 
-        .alerta-sucesso {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #34d399;
+        /* Campos do Formulário */
+        .corp-form-group {
+            margin-bottom: 20px;
         }
 
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+        .corp-form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 0.82rem;
             font-weight: 600;
+            color: var(--corp-text-title);
         }
 
-        .input-wrapper {
+        .corp-input-wrapper {
             position: relative;
             display: flex;
             align-items: center;
         }
 
-        .input-icon {
+        .corp-input-icon {
             position: absolute;
             left: 14px;
-            color: var(--text-muted);
+            color: var(--corp-text-muted);
             pointer-events: none;
             display: flex;
             align-items: center;
         }
 
-        .input-field {
+        .corp-input {
             width: 100%;
-            padding: 12px 14px 12px 42px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 8px;
-            background: var(--input-bg);
-            color: #fff;
-            font-size: 0.95rem;
+            padding: 11px 14px 11px 40px;
+            background: var(--corp-input-bg);
+            border: 1px solid var(--corp-border);
+            border-radius: 6px;
+            color: var(--corp-text-title);
+            font-size: 0.92rem;
             font-family: inherit;
             outline: none;
             transition: all 0.2s ease;
         }
 
-        .input-field:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 10px var(--primary-glow);
-            background: rgba(9, 14, 25, 0.95);
+        .corp-input:focus {
+            border-color: var(--corp-border-focus);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+            background: #0f182c;
         }
 
-        .input-field.input-erro {
-            border-color: var(--danger);
-            box-shadow: 0 0 8px rgba(255, 77, 109, 0.3);
+        .corp-input::placeholder {
+            color: #475569;
         }
 
-        /* Password Visibility Toggle */
-        .btn-toggle-senha {
+        .btn-toggle-eye {
             position: absolute;
             right: 12px;
             background: transparent;
             border: none;
-            color: var(--text-muted);
+            color: var(--corp-text-muted);
             cursor: pointer;
-            padding: 6px;
+            padding: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -278,228 +291,251 @@
             transition: color 0.2s ease;
         }
 
-        .btn-toggle-senha:hover {
-            color: var(--primary);
+        .btn-toggle-eye:hover {
+            color: var(--corp-text-title);
         }
 
-        /* Checkbox & Options */
-        .form-options {
+        /* Opções de Formulário */
+        .corp-form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 18px 0;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            margin-bottom: 22px;
+            font-size: 0.84rem;
         }
 
-        .custom-checkbox {
+        .corp-checkbox {
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--corp-text-muted);
             cursor: pointer;
             user-select: none;
         }
 
-        .custom-checkbox input[type="checkbox"] {
-            accent-color: var(--primary);
-            width: 16px;
-            height: 16px;
+        .corp-checkbox input[type="checkbox"] {
+            accent-color: var(--corp-primary);
+            width: 15px;
+            height: 15px;
             cursor: pointer;
         }
 
-        .link-esqueci {
-            color: var(--primary);
+        .corp-forgot-link {
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 500;
-            transition: opacity 0.2s ease;
+            transition: color 0.2s ease;
         }
 
-        .link-esqueci:hover {
-            opacity: 0.8;
+        .corp-forgot-link:hover {
+            color: #60a5fa;
             text-decoration: underline;
         }
 
-        /* Submit Button */
-        .btn-submit {
+        /* Botão Corporativo Primário */
+        .corp-btn-primary {
             width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%);
-            border: none;
-            border-radius: 8px;
-            color: #030a16;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
+            padding: 12px 18px;
+            background: var(--corp-primary);
+            border: 1px solid #1d4ed8;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 18px rgba(0, 240, 255, 0.35);
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
         }
 
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #33f3ff 0%, #00d2ff 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 22px rgba(0, 240, 255, 0.5);
+        .corp-btn-primary:hover {
+            background: var(--corp-primary-hover);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
         }
 
-        .btn-submit:active {
-            transform: translateY(0);
+        .corp-btn-primary:active {
+            transform: scale(0.99);
         }
 
-        .btn-submit:disabled {
+        .corp-btn-primary:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Auth Card Footer */
-        .auth-footer {
-            margin-top: 22px;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        /* Rodapé do Card */
+        .corp-card-footer {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--corp-border);
             text-align: center;
-            font-size: 0.86rem;
-            color: var(--text-muted);
+            font-size: 0.83rem;
+            color: var(--corp-text-muted);
         }
 
-        .auth-footer a {
-            color: var(--primary);
+        .corp-card-footer a {
+            color: #38bdf8;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.2s ease;
         }
 
-        .auth-footer a:hover {
-            color: #fff;
+        .corp-card-footer a:hover {
             text-decoration: underline;
         }
 
-        /* Footer Copyright */
-        .page-footer {
-            margin-top: 24px;
-            color: rgba(148, 163, 184, 0.6);
+        /* Rodapé Geral da Página */
+        .corp-footer {
+            padding: 20px 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
             font-size: 0.8rem;
-            text-align: center;
+            color: var(--corp-text-muted);
         }
 
-        @media (max-width: 480px) {
-            .auth-card {
-                padding: 24px 18px;
+        .corp-footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .corp-footer-links a {
+            color: var(--corp-text-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .corp-footer-links a:hover {
+            color: var(--corp-text-body);
+        }
+
+        .corp-compliance-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+        }
+
+        @media (max-width: 640px) {
+            .corp-header {
+                padding: 16px 20px;
             }
-            .auth-header h1 {
-                font-size: 1.75rem;
+            .corp-card {
+                padding: 28px 20px;
+                border: none;
+                background: transparent;
+                box-shadow: none;
             }
-            .form-options {
+            .corp-footer {
+                padding: 16px 20px;
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                align-items: center;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
 
-    <header class="auth-topbar">
-        <a href="index.html" class="auth-logo" title="GameVerse - Página Inicial">
-            <svg viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#gradLogo)"/>
-                <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
-                <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
-                <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
-                <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
-                <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
-                <text x="50" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
-                    Game<tspan fill="#00f0ff">Verse</tspan>
-                </text>
-                <defs>
-                    <linearGradient id="gradLogo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#00f0ff" />
-                        <stop offset="100%" stop-color="#7000ff" />
-                    </linearGradient>
-                </defs>
-            </svg>
+    <!-- CABEÇALHO CORPORATIVO -->
+    <header class="corp-header">
+        <a href="index.html" class="corp-brand" title="GameVerse Enterprise">
+            <div class="corp-brand-logo">G</div>
+            <div class="corp-brand-info">
+                <h1>GameVerse</h1>
+                <span>Enterprise Portal</span>
+            </div>
         </a>
 
-        <a href="index.html" class="btn-voltar-loja" title="Ir para a Loja">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="19" y1="12" x2="5" y2="12"></line>
-                <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            Voltar à Loja
-        </a>
+        <div class="corp-header-actions">
+            <a href="index.html" class="corp-btn-secondary" title="Retornar à Loja">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Voltar à Loja
+            </a>
+        </div>
     </header>
 
-    <main class="auth-container">
-        <div class="auth-card">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="corp-main">
+        <div class="corp-card">
 
-            <!-- SELETOR DE ABAS -->
-            <div class="auth-tabs" role="tablist">
-                <button type="button" class="tab-btn active" id="tab-login" data-target="secao-login" role="tab" aria-selected="true">
-                    <span>🔑</span> Entrar
+            <div class="security-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Ambiente Seguro SSL 256-bit
+            </div>
+
+            <!-- NAVEGAÇÃO DE ABAS -->
+            <div class="corp-tabs" role="tablist">
+                <button type="button" class="corp-tab-btn active" id="tab-login" role="tab" aria-selected="true">
+                    Acessar Conta
                 </button>
-                <button type="button" class="tab-btn" id="tab-cadastro" data-target="secao-cadastro" role="tab" aria-selected="false">
-                    <span>✨</span> Cadastrar
+                <button type="button" class="corp-tab-btn" id="tab-cadastro" role="tab" aria-selected="false">
+                    Novo Cadastro
                 </button>
             </div>
 
-            <!-- FEEDBACK ALERTS -->
-            <div id="alerta-erro" class="alerta alerta-erro" role="alert">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- FEEDBACK DE STATUS -->
+            <div id="alerta-erro" class="corp-alert corp-alert-error" role="alert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"></circle>
                     <line x1="12" y1="8" x2="12" y2="12"></line>
                     <line x1="12" y1="16" x2="12.01" y2="16"></line>
                 </svg>
-                <span id="alerta-erro-texto"></span>
+                <span id="alerta-erro-msg">Credenciais inválidas. Verifique os dados digitados.</span>
             </div>
 
-            <div id="alerta-sucesso" class="alerta alerta-sucesso" role="alert">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            <div id="alerta-sucesso" class="corp-alert corp-alert-success" role="alert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span id="alerta-sucesso-texto"></span>
+                <span id="alerta-sucesso-msg">Autenticação realizada com sucesso.</span>
             </div>
 
             <!-- ==============================
-                 TELA DE LOGIN (PADRÃO NESTA PÁGINA)
+                 TELA DE LOGIN (CORPORATIVA)
                  ============================== -->
-            <div id="secao-login" class="secao-auth" style="display: block;">
-                <div class="auth-header">
-                    <h1>Acessar <span>Conta</span></h1>
-                    <p>Faça login para desbloquear a loja, sua biblioteca e perfil</p>
+            <div id="secao-login" style="display: block;">
+                <div class="corp-card-header">
+                    <h2>Entrar na Plataforma</h2>
+                    <p>Informe suas credenciais corporativas ou de usuário para acessar o sistema.</p>
                 </div>
 
                 <form id="form-login" autocomplete="on">
-                    <div class="form-group">
-                        <label for="email-login">E-mail</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <div class="corp-form-group">
+                        <label for="email-login">E-mail Corporativo</label>
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                                     <polyline points="22,6 12,13 2,6"></polyline>
                                 </svg>
                             </span>
-                            <input type="email" id="email-login" class="input-field" placeholder="seu@email.com ou admin@gameverse.com" required autocomplete="email">
+                            <input type="email" id="email-login" class="corp-input" placeholder="nome@empresa.com ou admin@gameverse.com" required autocomplete="email">
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="corp-form-group">
                         <label for="senha-login">Senha</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                     <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                 </svg>
                             </span>
-                            <input type="password" id="senha-login" class="input-field" placeholder="••••••••" required autocomplete="current-password">
-                            <button type="button" class="btn-toggle-senha" data-target="senha-login" aria-label="Mostrar ou ocultar senha">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <input type="password" id="senha-login" class="corp-input" placeholder="••••••••" required autocomplete="current-password">
+                            <button type="button" class="btn-toggle-eye" data-target="senha-login" aria-label="Alternar visibilidade da senha">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="7" r="3"></circle>
                                 </svg>
@@ -507,173 +543,187 @@
                         </div>
                     </div>
 
-                    <div class="form-options">
-                        <label class="custom-checkbox">
+                    <div class="corp-form-options">
+                        <label class="corp-checkbox">
                             <input type="checkbox" id="lembrar-login">
-                            <span>Lembrar de mim</span>
+                            <span>Lembrar credencial</span>
                         </label>
-                        <a href="Esqueceusenha.html" class="link-esqueci">Esqueceu a senha?</a>
+                        <a href="Esqueceusenha.html" class="corp-forgot-link">Esqueceu a senha?</a>
                     </div>
 
-                    <button type="submit" class="btn-submit" id="btn-entrar">
-                        <span>Entrar</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10 17 15 12 10 7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
-                        </svg>
-                    </button>
-                </form>
-
-                <div class="auth-footer">
-                    Ainda não tem conta? <a href="Cadastrese.html" class="link-mudar-aba" data-aba="cadastro">Cadastre-se gratuitamente</a>
-                </div>
-            </div>
-
-            <!-- ==============================
-                 TELA DE CADASTRO
-                 ============================== -->
-            <div id="secao-cadastro" class="secao-auth" style="display: none;">
-                <div class="auth-header">
-                    <h1>Criar <span>Conta</span></h1>
-                    <p>Cadastre-se e aproveite ofertas exclusivas na GamerVerse</p>
-                </div>
-
-                <form id="form-cadastro" autocomplete="on">
-                    <div class="form-group">
-                        <label for="nome-cadastro">Nome Completo</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            </span>
-                            <input type="text" id="nome-cadastro" class="input-field" placeholder="Ex: Arthur Morgan" required autocomplete="name">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email-cadastro">E-mail</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                </svg>
-                            </span>
-                            <input type="email" id="email-cadastro" class="input-field" placeholder="seu@email.com" required autocomplete="email">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="senha-cadastro">Senha</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                </svg>
-                            </span>
-                            <input type="password" id="senha-cadastro" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required autocomplete="new-password">
-                            <button type="button" class="btn-toggle-senha" data-target="senha-cadastro" aria-label="Mostrar ou ocultar senha">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="7" r="3"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="confirma-senha-cadastro">Confirmar Senha</label>
-                        <div class="input-wrapper">
-                            <span class="input-icon">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                                </svg>
-                            </span>
-                            <input type="password" id="confirma-senha-cadastro" class="input-field" placeholder="Repita a senha" minlength="6" required autocomplete="new-password">
-                            <button type="button" class="btn-toggle-senha" data-target="confirma-senha-cadastro" aria-label="Mostrar ou ocultar confirmação de senha">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                    <circle cx="12" cy="7" r="3"></circle>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-options">
-                        <label class="custom-checkbox">
-                            <input type="checkbox" id="termos-cadastro" required>
-                            <span>Concordo com os Termos da loja</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn-submit" id="btn-cadastrar">
-                        <span>Criar Conta</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <button type="submit" class="corp-btn-primary" id="btn-submit-login">
+                        <span>Acessar Plataforma</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
                         </svg>
                     </button>
                 </form>
 
-                <div class="auth-footer">
-                    Já possui conta? <a href="#" class="link-mudar-aba" data-aba="login">Fazer Login</a>
+                <div class="corp-card-footer">
+                    Não possui uma conta? <a href="#" id="link-ir-cadastro">Cadastre-se aqui</a>
+                </div>
+            </div>
+
+            <!-- ==============================
+                 TELA DE CADASTRO
+                 ============================== -->
+            <div id="secao-cadastro" style="display: none;">
+                <div class="corp-card-header">
+                    <h2>Novo Usuário</h2>
+                    <p>Preencha os dados abaixo para registrar sua conta corporativa.</p>
+                </div>
+
+                <form id="form-cadastro" autocomplete="on">
+                    <div class="corp-form-group">
+                        <label for="nome-cadastro">Nome Completo</label>
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="nome-cadastro" class="corp-input" placeholder="Ex: Roberto Silva" required autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="corp-form-group">
+                        <label for="email-cadastro">E-mail Corporativo</label>
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </span>
+                            <input type="email" id="email-cadastro" class="corp-input" placeholder="seu.email@empresa.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="corp-form-group">
+                        <label for="senha-cadastro">Criar Senha</label>
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="senha-cadastro" class="corp-input" placeholder="Mínimo 6 caracteres" minlength="6" required autocomplete="new-password">
+                            <button type="button" class="btn-toggle-eye" data-target="senha-cadastro" aria-label="Alternar visibilidade da senha">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="7" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="corp-form-group">
+                        <label for="confirma-senha-cadastro">Confirmar Senha</label>
+                        <div class="corp-input-wrapper">
+                            <span class="corp-input-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="confirma-senha-cadastro" class="corp-input" placeholder="Repita a senha criada" minlength="6" required autocomplete="new-password">
+                            <button type="button" class="btn-toggle-eye" data-target="confirma-senha-cadastro" aria-label="Alternar visibilidade da confirmação">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="7" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="corp-form-options">
+                        <label class="corp-checkbox">
+                            <input type="checkbox" id="termos-cadastro" required>
+                            <span>Aceito as Políticas Corporativas e de Privacidade</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="corp-btn-primary" id="btn-submit-cadastro">
+                        <span>Registrar Usuário</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+
+                <div class="corp-card-footer">
+                    Já possui acesso? <a href="#" id="link-ir-login">Fazer login corporativo</a>
                 </div>
             </div>
 
         </div>
     </main>
 
-    <footer class="page-footer">
-        &copy; 2026 GamerVerse. Todos os direitos reservados.
+    <!-- RODAPÉ CORPORATIVO -->
+    <footer class="corp-footer">
+        <div>
+            &copy; 2026 GameVerse Enterprise Inc. Todos os direitos reservados.
+        </div>
+        <div class="corp-compliance-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            SLA 99.9% • Conexão Monitorada e Criptografada
+        </div>
+        <div class="corp-footer-links">
+            <a href="contato.html">Suporte Técnico</a>
+            <a href="Cadastrese.html">Portal do Jogador</a>
+        </div>
     </footer>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const secaoCadastro = document.getElementById('secao-cadastro');
         const secaoLogin = document.getElementById('secao-login');
-        const tabCadastro = document.getElementById('tab-cadastro');
+        const secaoCadastro = document.getElementById('secao-cadastro');
         const tabLogin = document.getElementById('tab-login');
+        const tabCadastro = document.getElementById('tab-cadastro');
 
         const alertaErro = document.getElementById('alerta-erro');
-        const alertaErroTexto = document.getElementById('alerta-erro-texto');
+        const alertaErroMsg = document.getElementById('alerta-erro-msg');
         const alertaSucesso = document.getElementById('alerta-sucesso');
-        const alertaSucessoTexto = document.getElementById('alerta-sucesso-texto');
+        const alertaSucessoMsg = document.getElementById('alerta-sucesso-msg');
 
-        const formCadastro = document.getElementById('form-cadastro');
         const formLogin = document.getElementById('form-login');
+        const formCadastro = document.getElementById('form-cadastro');
 
-        function fecharAlertas() {
+        const linkIrCadastro = document.getElementById('link-ir-cadastro');
+        const linkIrLogin = document.getElementById('link-ir-login');
+
+        function limparAlertas() {
             alertaErro.style.display = 'none';
             alertaSucesso.style.display = 'none';
         }
 
-        function mostrarErro(mensagem) {
-            fecharAlertas();
-            alertaErroTexto.textContent = mensagem;
+        function exibirErro(msg) {
+            limparAlertas();
+            alertaErroMsg.textContent = msg;
             alertaErro.style.display = 'flex';
         }
 
-        function mostrarSucesso(mensagem) {
-            fecharAlertas();
-            alertaSucessoTexto.textContent = mensagem;
+        function exibirSucesso(msg) {
+            limparAlertas();
+            alertaSucessoMsg.textContent = msg;
             alertaSucesso.style.display = 'flex';
         }
 
-        // Alternar visualização entre Cadastro e Login
-        function ativarAba(aba) {
-            fecharAlertas();
+        function alternarAba(aba) {
+            limparAlertas();
             if (aba === 'cadastro') {
-                secaoCadastro.style.display = 'block';
                 secaoLogin.style.display = 'none';
+                secaoCadastro.style.display = 'block';
                 tabCadastro.classList.add('active');
                 tabCadastro.setAttribute('aria-selected', 'true');
                 tabLogin.classList.remove('active');
                 tabLogin.setAttribute('aria-selected', 'false');
-                document.title = 'GamerVerse | Cadastre-se';
+                document.title = 'GamerVerse | Registro de Usuário';
             } else {
                 secaoCadastro.style.display = 'none';
                 secaoLogin.style.display = 'block';
@@ -681,60 +731,51 @@
                 tabLogin.setAttribute('aria-selected', 'true');
                 tabCadastro.classList.remove('active');
                 tabCadastro.setAttribute('aria-selected', 'false');
-                document.title = 'GamerVerse | Login';
+                document.title = 'GamerVerse | Portal de Acesso Corporativo';
             }
         }
 
-        tabCadastro.addEventListener('click', () => ativarAba('cadastro'));
-        tabLogin.addEventListener('click', () => ativarAba('login'));
+        tabLogin.addEventListener('click', () => alternarAba('login'));
+        tabCadastro.addEventListener('click', () => alternarAba('cadastro'));
+        if (linkIrCadastro) linkIrCadastro.addEventListener('click', (e) => { e.preventDefault(); alternarAba('cadastro'); });
+        if (linkIrLogin) linkIrLogin.addEventListener('click', (e) => { e.preventDefault(); alternarAba('login'); });
 
-        // Links para alternar abas
-        document.querySelectorAll('.link-mudar-aba').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const destino = link.getAttribute('data-aba');
-                if (destino) {
-                    e.preventDefault();
-                    ativarAba(destino);
-                }
-            });
-        });
-
-        // Alternar visibilidade de senhas
-        document.querySelectorAll('.btn-toggle-senha').forEach(btn => {
+        // Visibilidade de senhas
+        document.querySelectorAll('.btn-toggle-eye').forEach(btn => {
             btn.addEventListener('click', () => {
                 const targetId = btn.getAttribute('data-target');
                 const input = document.getElementById(targetId);
                 if (!input) return;
 
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
+                const isPass = input.type === 'password';
+                input.type = isPass ? 'text' : 'password';
 
-                btn.innerHTML = isPassword
-                    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                btn.innerHTML = isPass
+                    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                         <line x1="1" y1="1" x2="23" y2="23"></line>
                        </svg>`
-                    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                         <circle cx="12" cy="7" r="3"></circle>
                        </svg>`;
             });
         });
 
-        // PROCESSAR LOGIN
+        // LOGIN
         formLogin.addEventListener('submit', (e) => {
             e.preventDefault();
-            fecharAlertas();
+            limparAlertas();
 
             const email = document.getElementById('email-login').value.trim().toLowerCase();
             const senha = document.getElementById('senha-login').value.trim();
 
             if (!email || !senha) {
-                mostrarErro('Informe o e-mail e a senha.');
+                exibirErro('Por favor, informe suas credenciais corporativas completas.');
                 return;
             }
 
-            // 1. CREDENCIAIS DE ADMINISTRADOR
+            // Administrador
             const eAdminEmail = (email === 'admin@gameverse.com' || email === 'admin@gamerverse.com');
             const eAdminSenha = (senha === '123' || senha === '123456' || senha === 'admin');
 
@@ -743,14 +784,14 @@
                     nome: 'Administrador',
                     email: 'admin@gameverse.com'
                 }));
-                mostrarSucesso('Acesso de Administrador confirmado! Redirecionando...');
+                exibirSucesso('Autenticação de administrador autorizada. Redirecionando...');
                 setTimeout(() => {
                     window.location.href = 'admin.html';
                 }, 700);
                 return;
             }
 
-            // 2. CREDENCIAIS DE USUÁRIO CADASTRADO
+            // Usuários regulares
             const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
             const usuarioEncontrado = usuariosCadastrados.find(u => u.email.toLowerCase() === email && u.senha === senha);
 
@@ -759,19 +800,19 @@
                     nome: usuarioEncontrado.nome,
                     email: usuarioEncontrado.email
                 }));
-                mostrarSucesso(`Bem-vindo de volta, ${usuarioEncontrado.nome}! Entrando...`);
+                exibirSucesso(`Sessão autorizada para ${usuarioEncontrado.nome}. Carregando painel...`);
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 700);
             } else {
-                mostrarErro('E-mail ou senha incorretos. Verifique suas credenciais.');
+                exibirErro('Falha na autenticação: E-mail corporativo ou senha incorretos.');
             }
         });
 
-        // PROCESSAR CADASTRO
+        // CADASTRO
         formCadastro.addEventListener('submit', (e) => {
             e.preventDefault();
-            fecharAlertas();
+            limparAlertas();
 
             const nome = document.getElementById('nome-cadastro').value.trim();
             const email = document.getElementById('email-cadastro').value.trim().toLowerCase();
@@ -780,34 +821,32 @@
             const termos = document.getElementById('termos-cadastro').checked;
 
             if (!nome || !email || !senha || !confirmaSenha) {
-                mostrarErro('Por favor, preencha todos os campos obrigatórios.');
+                exibirErro('Todos os campos cadastrais são obrigatórios.');
                 return;
             }
 
             if (senha.length < 6) {
-                mostrarErro('A senha deve conter no mínimo 6 caracteres.');
-                document.getElementById('senha-cadastro').focus();
+                exibirErro('A senha deve ter no mínimo 6 caracteres por política de segurança.');
                 return;
             }
 
             if (senha !== confirmaSenha) {
-                mostrarErro('As senhas não coincidem. Por favor, confira a confirmação.');
-                document.getElementById('confirma-senha-cadastro').focus();
+                exibirErro('A confirmação de senha não confere.');
                 return;
             }
 
             if (!termos) {
-                mostrarErro('Você precisa concordar com os Termos da loja.');
+                exibirErro('É necessário concordar com os termos corporativos de uso.');
                 return;
             }
 
             const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
-            const emailJaExiste = usuariosCadastrados.some(u => u.email.toLowerCase() === email) ||
+            const emailExistente = usuariosCadastrados.some(u => u.email.toLowerCase() === email) ||
                                   email === 'admin@gameverse.com' ||
                                   email === 'admin@gamerverse.com';
 
-            if (emailJaExiste) {
-                mostrarErro('Este e-mail já está cadastrado. Você pode fazer login.');
+            if (emailExistente) {
+                exibirErro('Este e-mail já possui um registro ativo no diretório corporativo.');
                 return;
             }
 
@@ -822,16 +861,15 @@
             usuariosCadastrados.push(novoUsuario);
             localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosCadastrados));
 
-            // Loga automaticamente o usuário recém-criado
             localStorage.setItem('usuarioLogado', JSON.stringify({
                 nome: novoUsuario.nome,
                 email: novoUsuario.email
             }));
 
-            mostrarSucesso('Conta criada com sucesso! Redirecionando para a loja...');
+            exibirSucesso('Conta corporativa registrada com sucesso. Acessando plataforma...');
             formCadastro.reset();
 
-            const btnSubmit = document.getElementById('btn-cadastrar');
+            const btnSubmit = document.getElementById('btn-submit-cadastro');
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<span>Redirecionando...</span>';
 
@@ -840,15 +878,15 @@
             }, 1200);
         });
 
-        // Suporte a hash na URL (#login ou #cadastro)
+        // Verificação de URL
         const hash = window.location.hash.toLowerCase();
         const urlParams = new URLSearchParams(window.location.search);
         const tabParam = urlParams.get('tab');
 
         if (hash === '#cadastro' || tabParam === 'cadastro') {
-            ativarAba('cadastro');
+            alternarAba('cadastro');
         } else {
-            ativarAba('login');
+            alternarAba('login');
         }
     });
 </script>
