@@ -10,8 +10,9 @@
     <script>
         (function() {
             const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-            if (!usuarioLogado || !usuarioLogado.email) {
-                // Se não estiver logado, impede a permanência na página inicial
+            const sessaoAtiva = sessionStorage.getItem('sessaoAtiva');
+            if (!usuarioLogado || !usuarioLogado.email || !sessaoAtiva) {
+                // Ao abrir o projeto, exige autenticação e abre a página de login primeiro
                 window.location.href = 'Paginalogin.html';
             }
         })();

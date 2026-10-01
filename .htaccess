@@ -1,0 +1,2 @@
+# Definir a página de Login como a primeira a ser aberta no Apache/XAMPP
+DirectoryIndex Paginalogin.html index.html

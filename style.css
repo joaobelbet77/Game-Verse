@@ -436,6 +436,12 @@ footer {
     transition: border-color 0.3s;
 }
 
+.form-group .input-wrapper input,
+.input-wrapper input {
+    padding-left: 44px !important;
+    padding-right: 44px !important;
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
