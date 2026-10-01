@@ -5,217 +5,873 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GamerVerse | Cadastre-se</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .navbar .logo-svg-container {
+        :root {
+            --primary: #00f0ff;
+            --primary-glow: rgba(0, 240, 255, 0.4);
+            --primary-hover: #00b4d8;
+            --secondary: #7000ff;
+            --secondary-glow: rgba(112, 0, 255, 0.4);
+            --accent-purple: #a855f7;
+            --bg-dark: #070a10;
+            --card-bg: rgba(13, 19, 32, 0.92);
+            --border-color: rgba(0, 240, 255, 0.22);
+            --border-hover: rgba(0, 240, 255, 0.5);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(7, 11, 20, 0.85);
+            --danger: #ff4d6d;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 15%, #1e0c38 0%, var(--bg-dark) 65%);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+            position: relative;
+        }
+
+        /* Top Brand Navigation */
+        .auth-topbar {
+            width: 100%;
+            max-width: 460px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .auth-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
-            cursor: pointer;
+            transition: transform 0.2s ease;
         }
-        .navbar .logo-svg-container svg {
-            height: 48px;
+
+        .auth-logo:hover {
+            transform: scale(1.03);
+        }
+
+        .auth-logo svg {
+            height: 38px;
             width: auto;
-            transition: transform 0.3s ease;
         }
 
-        /* Bloqueio visual para links desativados antes do login/cadastro */
-        .nav-disabled {
-            opacity: 0.5;
-            cursor: not-allowed !important;
-            pointer-events: none;
-        }
-
-        .header-actions {
+        .btn-voltar-loja {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
         }
 
-        .user-icon {
+        .btn-voltar-loja:hover {
+            color: var(--primary);
+            border-color: var(--border-color);
+            background: rgba(0, 240, 255, 0.08);
+        }
+
+        /* Main Container */
+        .auth-container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 32px 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 240, 255, 0.12);
+            transition: border-color 0.3s ease;
+        }
+
+        /* Tabs Selector */
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: rgba(6, 10, 18, 0.7);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 4px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 14px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(112, 0, 255, 0.25));
+            color: var(--primary);
+            border: 1px solid rgba(0, 240, 255, 0.35);
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+        }
+
+        /* Headers */
+        .auth-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .auth-header h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .auth-header h1 span {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Feedback Alerts */
+        .alerta {
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 0.88rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .alerta-erro {
+            background: rgba(255, 77, 109, 0.15);
+            border: 1px solid rgba(255, 77, 109, 0.4);
+            color: #ff859b;
+        }
+
+        .alerta-sucesso {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            color: var(--text-muted);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 8px;
+            background: var(--input-bg);
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+            background: rgba(9, 14, 25, 0.95);
+        }
+
+        .input-field.input-erro {
+            border-color: var(--danger);
+            box-shadow: 0 0 8px rgba(255, 77, 109, 0.3);
+        }
+
+        /* Password Visibility Toggle */
+        .btn-toggle-senha {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .btn-toggle-senha:hover {
+            color: var(--primary);
+        }
+
+        /* Requirements / Helper hints */
+        .input-hint {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .input-hint.valido {
+            color: var(--success);
+        }
+
+        .input-hint.invalido {
+            color: var(--danger);
+        }
+
+        /* Checkbox & Options */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 18px 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-checkbox input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .link-esqueci {
+            color: var(--primary);
             text-decoration: none;
-            color: #FFFFFF;
-            font-size: 1.2rem;
+            font-weight: 500;
+            transition: opacity 0.2s ease;
+        }
+
+        .link-esqueci:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #00f0ff 0%, #00b4d8 100%);
+            border: none;
+            border-radius: 8px;
+            color: #030a16;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            cursor: pointer;
+            box-shadow: 0 4px 18px rgba(0, 240, 255, 0.35);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #33f3ff 0%, #00d2ff 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(0, 240, 255, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Auth Card Footer */
+        .auth-footer {
+            margin-top: 22px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: center;
+            font-size: 0.86rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .auth-footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* Footer Copyright */
+        .page-footer {
+            margin-top: 24px;
+            color: rgba(148, 163, 184, 0.6);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 24px 18px;
+            }
+            .auth-header h1 {
+                font-size: 1.75rem;
+            }
+            .form-options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <a href="#" class="logo-svg-container nav-blocked">
-            <svg width="220" height="50" viewBox="0 0 220 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="22" cy="24" rx="20" ry="8" stroke="url(#grad2)" stroke-width="2.5" transform="rotate(-25 22 24)" />
-                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#grad1)"/>
+    <header class="auth-topbar">
+        <a href="index.html" class="auth-logo" title="GameVerse - Página Inicial">
+            <svg viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 16C9.34315 16 8 17.3431 8 19V25C8 27.7614 10.2386 30 13 30C14.882 30 16.5204 28.9602 17.3753 27.4262L19.1056 24.3115C19.6833 23.2717 20.7828 22.625 21 22.625C21.2172 22.625 22.3167 23.2717 22.8944 24.3115L24.6247 27.4262C25.4796 28.9602 27.118 30 29 30C31.7614 30 34 27.7614 34 25V19C34 17.3431 32.6569 16 31 16H11Z" fill="url(#gradLogo)"/>
                 <path d="M13 19V23M11 21H15" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
                 <circle cx="28" cy="20" r="1.2" fill="#FFFFFF"/>
                 <circle cx="30.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
                 <circle cx="28" cy="25" r="1.2" fill="#FFFFFF"/>
                 <circle cx="25.5" cy="22.5" r="1.2" fill="#FFFFFF"/>
-                <text x="52" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
-                    Game<tspan fill="#A855F7">Verse</tspan>
+                <text x="50" y="32" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="0.5">
+                    Game<tspan fill="#00f0ff">Verse</tspan>
                 </text>
                 <defs>
-                    <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#3B82F6" />
-                        <stop offset="100%" stop-color="#9333EA" />
-                    </linearGradient>
-                    <linearGradient id="grad2" x1="0" y1="0" x2="40" y2="0" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#06B6D4" />
-                        <stop offset="100%" stop-color="#3B82F6" />
+                    <linearGradient id="gradLogo" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#00f0ff" />
+                        <stop offset="100%" stop-color="#7000ff" />
                     </linearGradient>
                 </defs>
             </svg>
         </a>
-        <nav>
-            <ul>
-                <li><a href="index.html" class="nav-blocked nav-disabled">Início</a></li>
-                <li><a href="lancamento.html" class="nav-blocked nav-disabled">Lançamentos</a></li>
-                <li><a href="promocoes.html" class="nav-blocked nav-disabled">Promoções</a></li>
-                <li><a href="Contato.html" class="nav-blocked nav-disabled">Contato</a></li>
-                <li><a href="Paginalogin.html">Login</a></li>
-            </ul>
-        </nav>
 
-        <div class="header-actions">
-            <a href="Paginalogin.html" class="user-icon" title="Entrar">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-            </a>
-            
-            <div class="cart-icon">
-                <a href="#" class="nav-blocked nav-disabled" title="Carrinho">🛒</a>
-                <span class="cart-count" id="cart-count">0</span>
-            </div>
-        </div>
-
-        <!-- Botão Menu Hambúrguer Mobile -->
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" type="button">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <a href="index.html" class="btn-voltar-loja" title="Ir para a Loja">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Voltar à Loja
+        </a>
     </header>
 
-    <main class="container">
-        <div class="login-card">
-            <h2 class="section-title" style="margin-bottom: 10px;">Crie sua Conta</h2>
-            <p style="text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 20px;">
-                🔒 Crie sua conta para acessar todas as funcionalidades do site.
-            </p>
-            
-            <!-- Mensagem de Feedback -->
-            <div id="mensagem-alerta" class="alerta-box" style="display: none;"></div>
+    <main class="auth-container">
+        <div class="auth-card">
 
-            <form id="cadastro-form">
-                <div class="form-group">
-                    <label for="nome">Nome Completo</label>
-                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" placeholder="Crie uma senha forte" required minlength="6">
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmar-senha">Confirmar Senha</label>
-                    <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita sua senha" required minlength="6">
-                </div>
-
-                <button type="submit" class="btn-comprar btn-login">Cadastrar</button>
-            </form>
-
-            <div class="login-footer">
-                <p>Já possui uma conta? <a href="Paginalogin.html">Faça Login</a></p>
+            <!-- SELETOR DE ABAS -->
+            <div class="auth-tabs" role="tablist">
+                <button type="button" class="tab-btn active" id="tab-cadastro" data-target="secao-cadastro" role="tab" aria-selected="true">
+                    <span>✨</span> Cadastrar
+                </button>
+                <button type="button" class="tab-btn" id="tab-login" data-target="secao-login" role="tab" aria-selected="false">
+                    <span>🔑</span> Entrar
+                </button>
             </div>
+
+            <!-- FEEDBACK ALERTS -->
+            <div id="alerta-erro" class="alerta alerta-erro" role="alert">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span id="alerta-erro-texto"></span>
+            </div>
+
+            <div id="alerta-sucesso" class="alerta alerta-sucesso" role="alert">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span id="alerta-sucesso-texto"></span>
+            </div>
+
+            <!-- ==============================
+                 TELA DE CADASTRO (PADRÃO NESTA PÁGINA)
+                 ============================== -->
+            <div id="secao-cadastro" class="secao-auth" style="display: block;">
+                <div class="auth-header">
+                    <h1>Criar <span>Conta</span></h1>
+                    <p>Junte-se à comunidade GamerVerse e desbloqueie sua biblioteca</p>
+                </div>
+
+                <form id="form-cadastro" autocomplete="on">
+                    <div class="form-group">
+                        <label for="nome-cadastro">Nome Completo</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </span>
+                            <input type="text" id="nome-cadastro" class="input-field" placeholder="Ex: Arthur Morgan" required autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email-cadastro">E-mail</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </span>
+                            <input type="email" id="email-cadastro" class="input-field" placeholder="seu@email.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha-cadastro">Senha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="senha-cadastro" class="input-field" placeholder="Mínimo 6 caracteres" minlength="6" required autocomplete="new-password">
+                            <button type="button" class="btn-toggle-senha" data-target="senha-cadastro" aria-label="Mostrar ou ocultar senha">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="7" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="input-hint" id="hint-senha">
+                            <span>ℹ️</span> A senha deve ter ao menos 6 caracteres.
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirma-senha-cadastro">Confirmar Senha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="confirma-senha-cadastro" class="input-field" placeholder="Repita a senha" minlength="6" required autocomplete="new-password">
+                            <button type="button" class="btn-toggle-senha" data-target="confirma-senha-cadastro" aria-label="Mostrar ou ocultar confirmação de senha">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="7" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="termos-cadastro" required>
+                            <span>Concordo com os Termos e Políticas da loja</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btn-cadastrar">
+                        <span>Criar Minha Conta</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    Já possui uma conta? <a href="Paginalogin.html" class="link-mudar-aba" data-aba="login">Fazer Login</a>
+                </div>
+            </div>
+
+            <!-- ==============================
+                 TELA DE LOGIN (DISPONÍVEL NA MESMA PÁGINA)
+                 ============================== -->
+            <div id="secao-login" class="secao-auth" style="display: none;">
+                <div class="auth-header">
+                    <h1>Acessar <span>Conta</span></h1>
+                    <p>Faça login para gerenciar sua biblioteca e pedidos</p>
+                </div>
+
+                <form id="form-login" autocomplete="on">
+                    <div class="form-group">
+                        <label for="email-login">E-mail</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </span>
+                            <input type="email" id="email-login" class="input-field" placeholder="seu@email.com ou admin@gameverse.com" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="senha-login">Senha</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </span>
+                            <input type="password" id="senha-login" class="input-field" placeholder="••••••••" required autocomplete="current-password">
+                            <button type="button" class="btn-toggle-senha" data-target="senha-login" aria-label="Mostrar ou ocultar senha">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="7" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" id="lembrar-login">
+                            <span>Lembrar de mim</span>
+                        </label>
+                        <a href="Esqueceusenha.html" class="link-esqueci">Esqueceu a senha?</a>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btn-entrar">
+                        <span>Entrar</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    Ainda não tem conta? <a href="#" class="link-mudar-aba" data-aba="cadastro">Cadastre-se gratuitamente</a>
+                </div>
+            </div>
+
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 GameVerse. Desenvolvido para Gamers.</p>
+    <footer class="page-footer">
+        &copy; 2026 GamerVerse. Todos os direitos reservados.
     </footer>
 
-    <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
-        const cadastroForm = document.getElementById('cadastro-form');
-        const alertaBox = document.getElementById('mensagem-alerta');
+        const secaoCadastro = document.getElementById('secao-cadastro');
+        const secaoLogin = document.getElementById('secao-login');
+        const tabCadastro = document.getElementById('tab-cadastro');
+        const tabLogin = document.getElementById('tab-login');
 
-        // Se já houver usuário logado no localStorage, redireciona para a página inicial
-        const usuarioAtivo = JSON.parse(localStorage.getItem('usuarioLogado'));
-        if (usuarioAtivo && usuarioAtivo.email) {
-            window.location.href = 'index.html';
-            return;
+        const alertaErro = document.getElementById('alerta-erro');
+        const alertaErroTexto = document.getElementById('alerta-erro-texto');
+        const alertaSucesso = document.getElementById('alerta-sucesso');
+        const alertaSucessoTexto = document.getElementById('alerta-sucesso-texto');
+
+        const formCadastro = document.getElementById('form-cadastro');
+        const formLogin = document.getElementById('form-login');
+
+        function fecharAlertas() {
+            alertaErro.style.display = 'none';
+            alertaSucesso.style.display = 'none';
         }
 
-        // Função para mostrar alertas na tela
-        function exibirMensagem(texto, tipo = 'erro') {
-            alertaBox.style.display = 'block';
-            alertaBox.style.padding = '10px';
-            alertaBox.style.marginBottom = '15px';
-            alertaBox.style.borderRadius = '6px';
-            alertaBox.style.textAlign = 'center';
-            alertaBox.style.fontSize = '0.9rem';
+        function mostrarErro(mensagem) {
+            fecharAlertas();
+            alertaErroTexto.textContent = mensagem;
+            alertaErro.style.display = 'flex';
+        }
 
-            if (tipo === 'erro') {
-                alertaBox.style.backgroundColor = '#e74c3c';
-                alertaBox.style.color = '#fff';
+        function mostrarSucesso(mensagem) {
+            fecharAlertas();
+            alertaSucessoTexto.textContent = mensagem;
+            alertaSucesso.style.display = 'flex';
+        }
+
+        // Alternar visualização entre Cadastro e Login
+        function ativarAba(aba) {
+            fecharAlertas();
+            if (aba === 'cadastro') {
+                secaoCadastro.style.display = 'block';
+                secaoLogin.style.display = 'none';
+                tabCadastro.classList.add('active');
+                tabCadastro.setAttribute('aria-selected', 'true');
+                tabLogin.classList.remove('active');
+                tabLogin.setAttribute('aria-selected', 'false');
+                document.title = 'GamerVerse | Cadastre-se';
             } else {
-                alertaBox.style.backgroundColor = '#2ecc71';
-                alertaBox.style.color = '#fff';
+                secaoCadastro.style.display = 'none';
+                secaoLogin.style.display = 'block';
+                tabLogin.classList.add('active');
+                tabLogin.setAttribute('aria-selected', 'true');
+                tabCadastro.classList.remove('active');
+                tabCadastro.setAttribute('aria-selected', 'false');
+                document.title = 'GamerVerse | Login';
             }
-            alertaBox.textContent = texto;
         }
 
-        // Intercepta tentativas de clicar em links bloqueados
-        document.querySelectorAll('.nav-blocked').forEach(link => {
+        tabCadastro.addEventListener('click', () => ativarAba('cadastro'));
+        tabLogin.addEventListener('click', () => ativarAba('login'));
+
+        // Links de rodapé para mudar aba
+        document.querySelectorAll('.link-mudar-aba').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                exibirMensagem('⚠️ Faça cadastro ou login antes de navegar na loja.');
+                const destino = link.getAttribute('data-aba');
+                if (destino) {
+                    e.preventDefault();
+                    ativarAba(destino);
+                }
             });
         });
 
-        // Evento de envio do formulário de cadastro
-        if (cadastroForm) {
-            cadastroForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+        // Alternar visibilidade de senhas
+        document.querySelectorAll('.btn-toggle-senha').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                if (!input) return;
 
-                const nome = document.getElementById('nome').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const senha = document.getElementById('senha').value;
-                const confirmarSenha = document.getElementById('confirmar-senha').value;
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
 
-                if (senha !== confirmarSenha) {
-                    exibirMensagem('As senhas não coincidem!');
-                    return;
-                }
-
-                const usuariosSalvos = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
-
-                const usuarioExiste = usuariosSalvos.some(u => u.email === email);
-                if (usuarioExiste) {
-                    exibirMensagem('Este e-mail já está cadastrado!');
-                    return;
-                }
-
-                // Salva o novo usuário
-                usuariosSalvos.push({ nome, email, senha });
-                localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosSalvos));
-
-                exibirMensagem('Conta criada com sucesso! Redirecionando para o login...', 'sucesso');
-
-                setTimeout(() => {
-                    window.location.href = 'Paginalogin.html';
-                }, 1500);
+                btn.innerHTML = isPassword
+                    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                       </svg>`
+                    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="7" r="3"></circle>
+                       </svg>`;
             });
+        });
+
+        // PROCESSAR CADASTRO
+        formCadastro.addEventListener('submit', (e) => {
+            e.preventDefault();
+            fecharAlertas();
+
+            const nome = document.getElementById('nome-cadastro').value.trim();
+            const email = document.getElementById('email-cadastro').value.trim().toLowerCase();
+            const senha = document.getElementById('senha-cadastro').value;
+            const confirmaSenha = document.getElementById('confirma-senha-cadastro').value;
+            const termos = document.getElementById('termos-cadastro').checked;
+
+            if (!nome || !email || !senha || !confirmaSenha) {
+                mostrarErro('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+
+            if (senha.length < 6) {
+                mostrarErro('A senha deve conter no mínimo 6 caracteres.');
+                document.getElementById('senha-cadastro').focus();
+                return;
+            }
+
+            if (senha !== confirmaSenha) {
+                mostrarErro('As senhas não coincidem. Por favor, confira a confirmação.');
+                document.getElementById('confirma-senha-cadastro').focus();
+                return;
+            }
+
+            if (!termos) {
+                mostrarErro('Você precisa concordar com os Termos e Políticas da loja.');
+                return;
+            }
+
+            // Verifica se o e-mail já existe
+            const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+            const emailJaExiste = usuariosCadastrados.some(u => u.email.toLowerCase() === email) ||
+                                  email === 'admin@gameverse.com' ||
+                                  email === 'admin@gamerverse.com';
+
+            if (emailJaExiste) {
+                mostrarErro('Este e-mail já está cadastrado. Você pode fazer login.');
+                return;
+            }
+
+            // Salva o novo usuário
+            const novoUsuario = {
+                id: Date.now(),
+                nome: nome,
+                email: email,
+                senha: senha,
+                criadoEm: new Date().toISOString()
+            };
+
+            usuariosCadastrados.push(novoUsuario);
+            localStorage.setItem('usuariosGamerVerse', JSON.stringify(usuariosCadastrados));
+
+            // Loga automaticamente o usuário recém-criado
+            localStorage.setItem('usuarioLogado', JSON.stringify({
+                nome: novoUsuario.nome,
+                email: novoUsuario.email
+            }));
+
+            mostrarSucesso('Conta criada com sucesso! Redirecionando para a loja...');
+            formCadastro.reset();
+
+            const btnSubmit = document.getElementById('btn-cadastrar');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<span>Redirecionando...</span>';
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1200);
+        });
+
+        // PROCESSAR LOGIN
+        formLogin.addEventListener('submit', (e) => {
+            e.preventDefault();
+            fecharAlertas();
+
+            const email = document.getElementById('email-login').value.trim().toLowerCase();
+            const senha = document.getElementById('senha-login').value.trim();
+
+            if (!email || !senha) {
+                mostrarErro('Informe o e-mail e a senha.');
+                return;
+            }
+
+            // 1. CREDENCIAIS DE ADMINISTRADOR
+            const eAdminEmail = (email === 'admin@gameverse.com' || email === 'admin@gamerverse.com');
+            const eAdminSenha = (senha === '123' || senha === '123456' || senha === 'admin');
+
+            if (eAdminEmail && eAdminSenha) {
+                localStorage.setItem('usuarioLogado', JSON.stringify({
+                    nome: 'Administrador',
+                    email: 'admin@gameverse.com'
+                }));
+                mostrarSucesso('Acesso de Administrador confirmado! Redirecionando...');
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 700);
+                return;
+            }
+
+            // 2. CREDENCIAIS DE USUÁRIO CADASTRADO
+            const usuariosCadastrados = JSON.parse(localStorage.getItem('usuariosGamerVerse')) || [];
+            const usuarioEncontrado = usuariosCadastrados.find(u => u.email.toLowerCase() === email && u.senha === senha);
+
+            if (usuarioEncontrado) {
+                localStorage.setItem('usuarioLogado', JSON.stringify({
+                    nome: usuarioEncontrado.nome,
+                    email: usuarioEncontrado.email
+                }));
+                mostrarSucesso(`Bem-vindo de volta, ${usuarioEncontrado.nome}! Entrando...`);
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 700);
+            } else {
+                mostrarErro('E-mail ou senha incorretos. Verifique suas credenciais.');
+            }
+        });
+
+        // Suporte a hash na URL (#login ou #cadastro)
+        const hash = window.location.hash.toLowerCase();
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+
+        if (hash === '#login' || tabParam === 'login') {
+            ativarAba('login');
+        } else {
+            ativarAba('cadastro');
         }
     });
 </script>

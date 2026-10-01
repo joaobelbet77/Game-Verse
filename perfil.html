@@ -253,7 +253,8 @@
         const usuarioExisteNoBanco = usuariosSalvos.some(u => u.email === usuarioLogado.email);
 
         // Se o usuário logado não for o Admin e não existir na lista de cadastrados reais, faz logout automático
-        if (usuarioLogado.email !== 'admin@gamerverse.com' && !usuarioExisteNoBanco) {
+        const eAdmin = (usuarioLogado.email === 'admin@gamerverse.com' || usuarioLogado.email === 'admin@gameverse.com');
+        if (!eAdmin && !usuarioExisteNoBanco) {
             localStorage.removeItem('usuarioLogado');
             window.location.href = 'Paginalogin.html';
             return;
@@ -297,7 +298,7 @@
             localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
 
             // Atualiza o registro correspondente no banco geral de usuários cadastrados
-            if (usuarioLogado.email !== 'admin@gamerverse.com') {
+            if (!eAdmin) {
                 const idx = usuariosSalvos.findIndex(u => u.email === usuarioLogado.email);
                 if (idx !== -1) {
                     usuariosSalvos[idx].nome = novoNome;
@@ -309,7 +310,7 @@
         });
 
         // 2. CONFIGURAÇÕES ADICIONAIS DE ADMIN
-        if (usuarioLogado.email === 'admin@gamerverse.com') {
+        if (eAdmin) {
             secaoAdmin.style.display = 'block';
 
             const checkManutencao = document.getElementById('check-manutencao');
